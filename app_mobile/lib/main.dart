@@ -92,7 +92,7 @@ class WeatherStart extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ManHinhGPS()),
+                  MaterialPageRoute(builder: (context) => ManHinhGPS()),
                 );
               },
               style: ElevatedButton.styleFrom(
