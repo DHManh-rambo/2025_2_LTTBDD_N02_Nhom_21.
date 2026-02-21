@@ -1,3 +1,4 @@
+import 'package:app_mobile/Home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -88,7 +89,12 @@ class WeatherStart extends StatelessWidget {
 
             // CHILD 3: button
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ManHinhGPS()),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 234, 211, 181),
                 minimumSize: const Size(260, 65),
