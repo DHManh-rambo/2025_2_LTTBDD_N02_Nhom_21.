@@ -88,11 +88,213 @@ class ManHinhGPS extends StatelessWidget {
 
 // MENU
 class Menu extends StatelessWidget {
-  const Menu({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.1),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        border: Border(
+          top: BorderSide(color: Colors.white24, width: 1),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Hà Nội",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 28,
+              fontWeight: FontWeight.w600,
+              shadows: [Shadow(blurRadius: 8, color: Colors.black38)],
+            ),
+          ),
+          PopupMenuButton<String>(
+            icon: Icon(Icons.menu, color: Colors.white, size: 32),
+            color: Colors.black87,
+            onSelected: (value) {
+              if (value == 'settings') {
+                _showSettingsBottomSheet(context);
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  value: 'search',
+                  child: Text(
+                    'Search',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'map',
+                  child: Text(
+                    'Map',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'chart',
+                  child: Text(
+                    'Chart',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'settings',
+                  child: Text(
+                    'Settings',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ];
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showSettingsBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.black87,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Cài đặt',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Đơn vị nhiệt độ',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 18,
+                    ),
+                  ),
+                  ToggleButtons(
+                    isSelected: [true, false],
+                    onPressed: (index) {},
+                    children: [Text('°C'), Text('°F')],
+                    color: Colors.white54,
+                    selectedColor: Colors.orange,
+                    fillColor: Colors.orange.withOpacity(0.2),
+                  ),
+                ],
+              ),
+              SizedBox(height: 15),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Đơn vị gió',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 18,
+                    ),
+                  ),
+                  ToggleButtons(
+                    isSelected: [true, false],
+                    onPressed: (index) {},
+                    children: [Text('m/s'), Text('km/h')],
+                    color: Colors.white54,
+                    selectedColor: Colors.orange,
+                    fillColor: Colors.orange.withOpacity(0.2),
+                  ),
+                ],
+              ),
+              SizedBox(height: 15),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Chế độ tối',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 18,
+                    ),
+                  ),
+                  Switch(
+                    value: true,
+                    onChanged: (val) {},
+                    activeColor: Colors.orange,
+                  ),
+                ],
+              ),
+              SizedBox(height: 15),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Ngôn ngữ',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 18,
+                    ),
+                  ),
+                  DropdownButton<String>(
+                    value: 'Tiếng Việt',
+                    dropdownColor: Colors.black87,
+                    items: ['Tiếng Việt', 'English'].map((lang) {
+                      return DropdownMenuItem(
+                        value: lang,
+                        child: Text(
+                          lang,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (val) {},
+                  ),
+                ],
+              ),
+              SizedBox(height: 15),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Thông báo',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 18,
+                    ),
+                  ),
+                  Switch(
+                    value: true,
+                    onChanged: (val) {},
+                    activeColor: Colors.orange,
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -457,10 +659,85 @@ class DuBaoTheoNgay extends StatelessWidget {
 
 // THÔNG TIN CHI TIẾT
 class ThongTinChiTiet extends StatelessWidget {
-  const ThongTinChiTiet({super.key});
+  final List<Map<String, String>> details = [
+    {"title": "Gió", "value": "12 km/h", "sub": "Hướng ĐN"},
+    {"title": "Độ ẩm", "value": "90%", "sub": "Điểm sương 19°"},
+    {"title": "Tầm nhìn", "value": "15 km", "sub": "Trong lành"},
+    {"title": "Mặt trời", "value": "06:22", "sub": "Lặn 17:57"},
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 1.0,
+        ),
+        itemCount: details.length,
+        itemBuilder: (context, index) {
+          final item = details[index];
+          return box(item["title"]!, item["value"]!, item["sub"]!);
+        },
+      ),
+    );
+  }
+
+  Widget box(String title, String value, String sub) {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white.withOpacity(0.18),
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(color: Colors.white30, width: 1.5),
+    ),
+    padding: EdgeInsets.all(8),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            shadows: [
+              Shadow(blurRadius: 6, color: Colors.black45),
+            ],
+          ),
+        ),
+        const SizedBox(height: 4),
+        ShaderMask(
+          shaderCallback: (bounds) => const LinearGradient(
+            colors: [Color(0xFFFFFF00), Color(0xFFFFA500)],
+          ).createShader(bounds),
+          child: const Text(
+            "",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              shadows: [
+                Shadow(
+                  blurRadius: 8,
+                  color: Colors.black54,
+                  offset: Offset(2, 2),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          sub,
+          style: const TextStyle(color: Colors.white70, fontSize: 11),
+        ),
+      ],
+    ),
+  );
   }
 }
