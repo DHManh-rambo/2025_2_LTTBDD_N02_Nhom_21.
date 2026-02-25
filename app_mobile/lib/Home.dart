@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:app_mobile/Search.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
 }
 
 class ManHinhGPS extends StatelessWidget {
+  List<String> _searchHistory = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +55,7 @@ class ManHinhGPS extends StatelessWidget {
                     ),
                   ),
                 ),
-                Menu(),
+                Menu(searchHistory: _searchHistory),
               ],
             ),
           ),
@@ -87,7 +89,18 @@ class ManHinhGPS extends StatelessWidget {
 }
 
 // MENU
-class Menu extends StatelessWidget {
+class Menu extends StatefulWidget {
+  final List<String> searchHistory;
+
+  const Menu({super.key, required this.searchHistory});
+
+  @override
+  State<Menu> createState() => _MenuState();
+}
+
+class _MenuState extends State<Menu> {
+  String selectedCity = "Hà Nội";
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -95,22 +108,42 @@ class Menu extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.1),
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        border: Border(
-          top: BorderSide(color: Colors.white24, width: 1),
-        ),
+        border: Border(top: BorderSide(color: Colors.white24, width: 1)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            "Hà Nội",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 28,
-              fontWeight: FontWeight.w600,
-              shadows: [Shadow(blurRadius: 8, color: Colors.black38)],
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              setState(() {
+                selectedCity = value;
+              });
+            },
+            itemBuilder: (context) {
+              if (widget.searchHistory.isEmpty) {
+                return [PopupMenuItem(value: "Hà Nội", child: Text("Hà Nội"))];
+              }
+
+              return widget.searchHistory.map((city) {
+                return PopupMenuItem(value: city, child: Text(city));
+              }).toList();
+            },
+            child: Row(
+              children: [
+                Text(
+                  selectedCity,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w600,
+                    shadows: [Shadow(blurRadius: 8, color: Colors.black38)],
+                  ),
+                ),
+                Icon(Icons.arrow_drop_down, color: Colors.white),
+              ],
             ),
           ),
+
           PopupMenuButton<String>(
             icon: Icon(Icons.menu, color: Colors.white, size: 32),
             color: Colors.black87,
@@ -118,29 +151,28 @@ class Menu extends StatelessWidget {
               if (value == 'settings') {
                 _showSettingsBottomSheet(context);
               }
+              if (value == 'search') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Search()),
+                );
+              }
+              if (value == 'map') {}
+              if (value == 'chart') {}
             },
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
                   value: 'search',
-                  child: Text(
-                    'Search',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  child: Text('Search', style: TextStyle(color: Colors.white)),
                 ),
                 PopupMenuItem(
                   value: 'map',
-                  child: Text(
-                    'Map',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  child: Text('Map', style: TextStyle(color: Colors.white)),
                 ),
                 PopupMenuItem(
                   value: 'chart',
-                  child: Text(
-                    'Chart',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  child: Text('Chart', style: TextStyle(color: Colors.white)),
                 ),
                 PopupMenuItem(
                   value: 'settings',
@@ -178,116 +210,6 @@ class Menu extends StatelessWidget {
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
-              SizedBox(height: 20),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Đơn vị nhiệt độ',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 18,
-                    ),
-                  ),
-                  ToggleButtons(
-                    isSelected: [true, false],
-                    onPressed: (index) {},
-                    children: [Text('°C'), Text('°F')],
-                    color: Colors.white54,
-                    selectedColor: Colors.orange,
-                    fillColor: Colors.orange.withOpacity(0.2),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Đơn vị gió',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 18,
-                    ),
-                  ),
-                  ToggleButtons(
-                    isSelected: [true, false],
-                    onPressed: (index) {},
-                    children: [Text('m/s'), Text('km/h')],
-                    color: Colors.white54,
-                    selectedColor: Colors.orange,
-                    fillColor: Colors.orange.withOpacity(0.2),
-                  ),
-                ],
-              ),
-              SizedBox(height: 15),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Chế độ tối',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Switch(
-                    value: true,
-                    onChanged: (val) {},
-                    activeColor: Colors.orange,
-                  ),
-                ],
-              ),
-              SizedBox(height: 15),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Ngôn ngữ',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 18,
-                    ),
-                  ),
-                  DropdownButton<String>(
-                    value: 'Tiếng Việt',
-                    dropdownColor: Colors.black87,
-                    items: ['Tiếng Việt', 'English'].map((lang) {
-                      return DropdownMenuItem(
-                        value: lang,
-                        child: Text(
-                          lang,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (val) {},
-                  ),
-                ],
-              ),
-              SizedBox(height: 15),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Thông báo',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Switch(
-                    value: true,
-                    onChanged: (val) {},
-                    activeColor: Colors.orange,
-                  ),
-                ],
               ),
               SizedBox(height: 20),
             ],
@@ -689,55 +611,53 @@ class ThongTinChiTiet extends StatelessWidget {
   }
 
   Widget box(String title, String value, String sub) {
-  return Container(
-    decoration: BoxDecoration(
-      color: Colors.white.withOpacity(0.18),
-      borderRadius: BorderRadius.circular(20),
-      border: Border.all(color: Colors.white30, width: 1.5),
-    ),
-    padding: EdgeInsets.all(8),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            shadows: [
-              Shadow(blurRadius: 6, color: Colors.black45),
-            ],
-          ),
-        ),
-        const SizedBox(height: 4),
-        ShaderMask(
-          shaderCallback: (bounds) => const LinearGradient(
-            colors: [Color(0xFFFFFF00), Color(0xFFFFA500)],
-          ).createShader(bounds),
-          child: const Text(
-            "",
-            style: TextStyle(
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.18),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white30, width: 1.5),
+      ),
+      padding: EdgeInsets.all(8),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
               color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              shadows: [
-                Shadow(
-                  blurRadius: 8,
-                  color: Colors.black54,
-                  offset: Offset(2, 2),
-                ),
-              ],
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              shadows: [Shadow(blurRadius: 6, color: Colors.black45)],
             ),
           ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          sub,
-          style: const TextStyle(color: Colors.white70, fontSize: 11),
-        ),
-      ],
-    ),
-  );
+          const SizedBox(height: 4),
+          ShaderMask(
+            shaderCallback: (bounds) => const LinearGradient(
+              colors: [Color(0xFFFFFF00), Color(0xFFFFA500)],
+            ).createShader(bounds),
+            child: const Text(
+              "",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                shadows: [
+                  Shadow(
+                    blurRadius: 8,
+                    color: Colors.black54,
+                    offset: Offset(2, 2),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            sub,
+            style: const TextStyle(color: Colors.white70, fontSize: 11),
+          ),
+        ],
+      ),
+    );
   }
 }
