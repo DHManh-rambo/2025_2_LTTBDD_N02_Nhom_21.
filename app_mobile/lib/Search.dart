@@ -18,7 +18,19 @@ class _SearchState extends State<Search> {
   bool _isLoading = false;
   String? _errorMessage;
 
-  List<String> _searchHistory = [];
+  List<String> searchHistory = [];
+  @override
+  void initState() {
+    super.initState();
+    _loadHistory();
+  }
+
+  Future<void> _loadHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      searchHistory = prefs.getStringList('search_history') ?? [];
+    });
+  }
 
   Future<void> _searchWeather() async {
     String city = _cityController.text.trim();
@@ -43,14 +55,15 @@ class _SearchState extends State<Search> {
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
-        setState(() {
-          _weatherData = jsonDecode(response.body);
-          _isLoading = false;
+        final data = jsonDecode(response.body);
 
-          if (!_searchHistory.contains(city)) {
-            _searchHistory.insert(0, city);
-          }
+        setState(() {
+          _weatherData = data;
+          _isLoading = false;
         });
+
+        await _saveToHistory(city);
+        await _loadHistory();
       } else {
         setState(() {
           _errorMessage = "Không tìm thấy thành phố";
@@ -98,7 +111,7 @@ class _SearchState extends State<Search> {
 
             SizedBox(height: 15),
 
-            if (_searchHistory.isNotEmpty) ...[
+            if (searchHistory.isNotEmpty) ...[
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -110,13 +123,13 @@ class _SearchState extends State<Search> {
               SizedBox(
                 height: 100,
                 child: ListView.builder(
-                  itemCount: _searchHistory.length,
+                  itemCount: searchHistory.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(_searchHistory[index]),
+                      title: Text(searchHistory[index]),
                       leading: Icon(Icons.history),
                       onTap: () {
-                        _cityController.text = _searchHistory[index];
+                        _cityController.text = searchHistory[index];
                         _searchWeather();
                       },
                     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:app_mobile/Search.dart';
+//import 'package:app_mobile/SearchHistory.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,9 +15,38 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ManHinhGPS extends StatelessWidget {
-  List<String> _searchHistory = [];
+class ManHinhGPS extends StatefulWidget {
+  const ManHinhGPS({super.key});
+
   @override
+  State<ManHinhGPS> createState() => _ManHinhGPSState();
+}
+
+class _ManHinhGPSState extends State<ManHinhGPS> {
+  String selectedCity = "Hanoi";
+  late Future<Map<String, dynamic>> weatherFuture;
+  late Future<List<dynamic>> forecastFuture;
+  List<String> _searchHistory = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSearchHistory();
+    weatherFuture = fetchCurrentWeather(selectedCity);
+    forecastFuture = fetchForecast(selectedCity);
+  }
+
+  Future<void> _loadSearchHistory() async {
+    //List<String> history = await SearchHistoryService.getHistory();
+    setState(() {
+      //  _searchHistory = history;
+    });
+  }
+
+  void _refreshSearchHistory() {
+    _loadSearchHistory();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -40,13 +70,13 @@ class ManHinhGPS extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(height: 20),
-                        NhietDoHienTai(),
+                        NhietDoHienTai(city: selectedCity),
                         SizedBox(height: 30),
                         buildSectionTitle("DỰ BÁO THEO GIỜ"),
-                        DuBaoTheoGio(),
+                        DuBaoTheoGio(city: selectedCity),
                         SizedBox(height: 20),
                         buildSectionTitle("DỰ BÁO 7 NGÀY"),
-                        DuBaoTheoNgay(),
+                        DuBaoTheoNgay(city: selectedCity),
                         SizedBox(height: 20),
                         buildSectionTitle("CHI TIẾT"),
                         ThongTinChiTiet(),
@@ -55,7 +85,17 @@ class ManHinhGPS extends StatelessWidget {
                     ),
                   ),
                 ),
-                Menu(searchHistory: _searchHistory),
+                Menu(
+                  searchHistory: _searchHistory,
+                  onCityChanged: (city) {
+                    setState(() {
+                      selectedCity = city;
+                      weatherFuture = fetchCurrentWeather(city);
+                      forecastFuture = fetchForecast(city);
+                    });
+                  },
+                  onSearchCompleted: _refreshSearchHistory,
+                ),
               ],
             ),
           ),
@@ -91,9 +131,15 @@ class ManHinhGPS extends StatelessWidget {
 // MENU
 class Menu extends StatefulWidget {
   final List<String> searchHistory;
+  final Function(String)? onCityChanged;
+  final VoidCallback? onSearchCompleted;
 
-  const Menu({super.key, required this.searchHistory});
-
+  const Menu({
+    super.key,
+    required this.searchHistory,
+    this.onCityChanged,
+    this.onSearchCompleted,
+  });
   @override
   State<Menu> createState() => _MenuState();
 }
@@ -102,6 +148,17 @@ class _MenuState extends State<Menu> {
   String selectedCity = "Hà Nội";
 
   @override
+  void didUpdateWidget(covariant Menu oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.searchHistory.isNotEmpty &&
+        !widget.searchHistory.contains(selectedCity)) {
+      setState(() {
+        selectedCity = widget.searchHistory.first;
+      });
+    }
+  }
+
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -118,6 +175,7 @@ class _MenuState extends State<Menu> {
               setState(() {
                 selectedCity = value;
               });
+              widget.onCityChanged?.call(value);
             },
             itemBuilder: (context) {
               if (widget.searchHistory.isEmpty) {
@@ -147,15 +205,19 @@ class _MenuState extends State<Menu> {
           PopupMenuButton<String>(
             icon: Icon(Icons.menu, color: Colors.white, size: 32),
             color: Colors.black87,
-            onSelected: (value) {
+            onSelected: (value) async {
               if (value == 'settings') {
                 _showSettingsBottomSheet(context);
               }
               if (value == 'search') {
-                Navigator.push(
+                await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Search()),
                 );
+                if (mounted) {
+                  setState(() {});
+                  widget.onSearchCompleted?.call();
+                }
               }
               if (value == 'map') {}
               if (value == 'chart') {}
@@ -223,7 +285,6 @@ class _MenuState extends State<Menu> {
 //API SERVICES
 
 const String apiKey = "21e22af1cab731edfd013dcefac288d5";
-const String city = "Hanoi";
 
 Future<dynamic> getData(String url) async {
   final response = await http.get(Uri.parse(url));
@@ -234,13 +295,13 @@ Future<dynamic> getData(String url) async {
   }
 }
 
-Future<Map<String, dynamic>> fetchCurrentWeather() async {
+Future<Map<String, dynamic>> fetchCurrentWeather(String city) async {
   return await getData(
     "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric&lang=vi",
   );
 }
 
-Future<List<dynamic>> fetchForecast() async {
+Future<List<dynamic>> fetchForecast(String city) async {
   final data = await getData(
     "https://api.openweathermap.org/data/2.5/forecast?q=$city&appid=$apiKey&units=metric&lang=vi",
   );
@@ -249,10 +310,13 @@ Future<List<dynamic>> fetchForecast() async {
 // Nhiệt độ hiện tại
 
 class NhietDoHienTai extends StatelessWidget {
+  final String city;
+
+  const NhietDoHienTai({required this.city});
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
-      future: fetchCurrentWeather(),
+      future: fetchCurrentWeather(city),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator(color: Colors.white);
@@ -310,10 +374,12 @@ class NhietDoHienTai extends StatelessWidget {
 //DỰ BÁO THEO GIỜ
 
 class DuBaoTheoGio extends StatelessWidget {
+  final String city;
+  const DuBaoTheoGio({required this.city});
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<dynamic>>(
-      future: fetchForecast(),
+      future: fetchForecast(city),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
@@ -414,10 +480,13 @@ class DuBaoTheoGio extends StatelessWidget {
 //DỰ BÁO  THEO NGÀY
 
 class DuBaoTheoNgay extends StatelessWidget {
+  final String city;
+
+  const DuBaoTheoNgay({required this.city});
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<dynamic>>(
-      future: fetchForecast(),
+      future: fetchForecast(city),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return buildLoading();
@@ -592,32 +661,30 @@ class ThongTinChiTiet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 1.0,
+      child: SizedBox(
+        height: 140,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: details.length,
+          separatorBuilder: (context, index) => const SizedBox(width: 12),
+          itemBuilder: (context, index) {
+            final item = details[index];
+            return box(item["title"]!, item["value"]!, item["sub"]!);
+          },
         ),
-        itemCount: details.length,
-        itemBuilder: (context, index) {
-          final item = details[index];
-          return box(item["title"]!, item["value"]!, item["sub"]!);
-        },
       ),
     );
   }
 
   Widget box(String title, String value, String sub) {
     return Container(
+      width: 130, // 👈 chiều rộng để thành ô vuông
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.18),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white30, width: 1.5),
       ),
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -625,35 +692,23 @@ class ThongTinChiTiet extends StatelessWidget {
             title,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.w600,
-              shadows: [Shadow(blurRadius: 6, color: Colors.black45)],
             ),
           ),
-          const SizedBox(height: 4),
-          ShaderMask(
-            shaderCallback: (bounds) => const LinearGradient(
-              colors: [Color(0xFFFFFF00), Color(0xFFFFA500)],
-            ).createShader(bounds),
-            child: const Text(
-              "",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                shadows: [
-                  Shadow(
-                    blurRadius: 8,
-                    color: Colors.black54,
-                    offset: Offset(2, 2),
-                  ),
-                ],
-              ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.yellow,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: 6),
           Text(
             sub,
+            textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.white70, fontSize: 11),
           ),
         ],
