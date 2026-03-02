@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:app_mobile/Search.dart';
+import 'package:app_mobile/Chart.dart';
 import 'package:app_mobile/SearchHistory.dart';
 
 void main() {
@@ -220,7 +221,9 @@ class _MenuState extends State<Menu> {
                 }
               }
               if (value == 'map') {}
-              if (value == 'chart') {}
+              if (value == 'chart') {await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Chart()),}
             },
             itemBuilder: (BuildContext context) {
               return [
