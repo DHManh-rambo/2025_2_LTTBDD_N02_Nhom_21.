@@ -221,9 +221,11 @@ class _MenuState extends State<Menu> {
                 }
               }
               if (value == 'map') {}
-              if (value == 'chart') {await Navigator.push(
+              if (value == 'chart') {
+                await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Chart()),}
+                  MaterialPageRoute(builder: (context) => Chart()));
+              }
             },
             itemBuilder: (BuildContext context) {
               return [
