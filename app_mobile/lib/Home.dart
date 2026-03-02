@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:app_mobile/Search.dart';
-//import 'package:app_mobile/SearchHistory.dart';
+import 'package:app_mobile/SearchHistory.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,9 +37,9 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
   }
 
   Future<void> _loadSearchHistory() async {
-    //List<String> history = await SearchHistoryService.getHistory();
+    List<String> history = await SearchHistoryService.getHistory();
     setState(() {
-      //  _searchHistory = history;
+        _searchHistory = history;
     });
   }
 
