@@ -142,4 +142,58 @@ class _ChartState extends State<Chart> {
       (index) => FlSpot((index + 1).toDouble(), data[index]),
     );
   }
+  Widget GetDescription() {
+    if (selectedType == "24h") {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text("Biểu đồ thể hiện nhiệt độ thay đổi trong 24 giờ gần nhất."),
+          SizedBox(height: 4),
+          Text("Chú Thích.", style: TextStyle(color: Colors.grey)),
+          Text(
+            "trục X: thể hiện số ngày từ 1 -> 24h. ",
+            style: TextStyle(color: Colors.grey),
+          ),
+          Text(
+            "trục Y: thể hiện nhiệt độ (độ C). ",
+            style: TextStyle(color: Colors.grey),
+          ),
+        ],
+      );
+    } else if (selectedType == "7day") {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text("Biểu đồ thể hiện nhiệt độ thay đổi trong 7 ngày gần nhất."),
+          SizedBox(height: 4),
+          Text("Chú Thích.", style: TextStyle(color: Colors.grey)),
+          Text(
+            "trục X: thể hiện số ngày từ 1 -> 7. ",
+            style: TextStyle(color: Colors.grey),
+          ),
+          Text(
+            "trục Y: thể hiện nhiệt độ (độ C). ",
+            style: TextStyle(color: Colors.grey),
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text("Biểu đồ thể hiện lượng mưa trong 7 ngày gần nhất (mm)."),
+          SizedBox(height: 4),
+          Text("Chú Thích.", style: TextStyle(color: Colors.grey)),
+          Text(
+            "trục X: thể hiện số ngày từ 1 -> 7. ",
+            style: TextStyle(color: Colors.grey),
+          ),
+          Text(
+            "trục Y: thể hiện lượng mưa(mm). ",
+            style: TextStyle(color: Colors.grey),
+          ),
+        ],
+      );
+    }
+  }
 }
