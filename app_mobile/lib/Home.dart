@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:app_mobile/Search.dart';
 import 'package:app_mobile/Chart.dart';
 import 'package:app_mobile/SearchHistory.dart';
+import 'package:app_mobile/Map.dart';
 
 void main() {
   runApp(MyApp());
@@ -40,7 +41,7 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
   Future<void> _loadSearchHistory() async {
     List<String> history = await SearchHistoryService.getHistory();
     setState(() {
-        _searchHistory = history;
+      _searchHistory = history;
     });
   }
 
@@ -220,11 +221,17 @@ class _MenuState extends State<Menu> {
                   widget.onSearchCompleted?.call();
                 }
               }
-              if (value == 'map') {}
+              if (value == 'map') {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MAP()),
+                );
+              }
               if (value == 'chart') {
                 await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Chart()));
+                  MaterialPageRoute(builder: (context) => Chart()),
+                );
               }
             },
             itemBuilder: (BuildContext context) {

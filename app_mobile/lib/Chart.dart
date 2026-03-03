@@ -119,7 +119,7 @@ class _ChartState extends State<Chart> {
 
             const SizedBox(height: 20),
 
-            //GetDescription(),
+            GetDescription(),
           ],
         ),
       ),
@@ -142,6 +142,7 @@ class _ChartState extends State<Chart> {
       (index) => FlSpot((index + 1).toDouble(), data[index]),
     );
   }
+
   Widget GetDescription() {
     if (selectedType == "24h") {
       return Column(
