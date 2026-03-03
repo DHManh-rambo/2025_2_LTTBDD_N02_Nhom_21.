@@ -1,6 +1,20 @@
-# 🌦️ **WEATHER FORECAST APP**
+<h1 align="center">Lập trình thiết bị di động </h1>
 
-> Ứng dụng dự báo thời tiết trực quan – hiện đại – thân thiện, giúp bạn nắm bắt thời tiết **mọi lúc, mọi nơi!**  
+<p align="center">
+  <img src="https://img.shields.io/badge/Dart-42.4%25-0175C2?logo=dart&logoColor=white" />
+  <img src="https://img.shields.io/badge/C-29.0%25-00599C?logo=cplusplus&logoColor=white" />
+  <img src="https://img.shields.io/badge/CMake-23.1%25-064F8C?logo=cmake&logoColor=white" />
+  <img src="https://img.shields.io/badge/Swift-2.3%25-FA7343?logo=swift&logoColor=white" />
+  <img src="https://img.shields.io/badge/HTML-1.4%25-E34F26?logo=html5&logoColor=white" />
+</p>
+
+<p align="center">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKRaazQd2nP4zhAOIcADgvWh1eNcReh_xeyw&s" width="100" />
+</p>
+
+## 🌦️ **????P**
+
+</h1> Ứng dụng dự báo thời tiết trực quan – hiện đại – thân thiện, giúp bạn nắm bắt thời tiết **mọi lúc, mọi nơi!**  </h1>
 
 ---
 
@@ -9,7 +23,7 @@
 | Thành viên | MSSV |
 |-------------|------|
 | 👨‍💻 **Nguyễn Đức TRọng ** | 23010594 |
-| 👨‍💻 **Nguyễn Huy Hoàng** | 23010597 |
+| 👨‍💻 ** Dương Hùng Mạnh ** | 23010597 |
 
 **Môn học:** *Lập trình cho thiết bị di động - N02*  
 **Giảng viên hướng dẫn:** *Ths. Nguyễn Xuân Quế*  
@@ -17,17 +31,23 @@
 
 ---
 
-## 🌍 **Giới thiệu Dự án**
+## 🌍 **Mô tả dự án **
 
-**Weather Forecast App** là ứng dụng được phát triển bằng **Flutter**, giúp người dùng:
+**????** Application là ứng dụng cung cấp thông tin thời tiết theo thời gian thực, được phát triển bằng Flutter nhằm mục tiêu xây dựng một hệ thống:
 
-✅ Xem thông tin thời tiết của nhiều thành phố trên thế giới.  
-✅ Tìm kiếm, thêm hoặc xóa **thành phố yêu thích**.  
-✅ Xem **bản đồ thời tiết trực quan**: nhiệt độ 🌡️, lượng mưa 🌧️, mây ☁️, và gió 💨.  
-✅ Giao diện **hiện đại – mượt mà – thân thiện**.  
+- Hoạt động đa nền tảng (Web, Android, iOS)
+- Giao diện trực quan, dễ sử dụng
+- Truy xuất dữ liệu nhanh và ổn định
+- Dễ mở rộng và bảo trì
+- Ứng dụng sử dụng OpenWeatherMap API để lấy dữ liệu thời tiết và hiển thị dưới dạng thông tin chi tiết kết hợp bản đồ trực   quan.
+---
+## Mục tiêu xây dựng
+- Cung cấp thông tin thời tiết chính xác cho nhiều thành phố trên thế giới
+- Cho phép người dùng quản lý danh sách thành phố yêu thích
+- Trực quan hóa dữ liệu thời tiết thông qua bản đồ
+- Tích hợp hỗ trợ song ngữ Việt – Anh
 
 ---
-
 ## ⚙️ **Công nghệ sử dụng**
 
 | Thành phần | Mô tả |
@@ -41,34 +61,42 @@
 
 ---
 
-## 🚀 **Các chức năng chính**
+##  **Các chức năng chính**
 
 ### 🏁 Mở đầu:
 - Giới thiệu nhanh về các tính năng có trong ứng dụng.
-
-### 🌤️ 1. **Màn hình chính**
-- Hiển thị thông tin thời tiết chi tiết của vị trí hiện tại.  
-- Cung cấp các chỉ số như: nhiệt độ, độ ẩm, tốc độ gió, cảm giác thực tế, v.v.  
-- Có thanh điều hướng nhanh đến các phần khác.
-
-### 🔎 2. **Màn hình “Tìm kiếm thành phố”**
-- Cho phép người dùng nhập tên thành phố cần tra cứu.  
-- Hiển thị **gợi ý tự động** khi gõ.  
-- Giao diện tìm kiếm mượt mà và trực quan.
-
-### 🗺️ 3. **Màn hình “Bản đồ thời tiết”**
-- Hiển thị bản đồ thế giới với **lớp phủ dữ liệu** (nhiệt độ, mưa, mây, gió).  
-- Có **thanh màu thể hiện thang nhiệt độ**.  
-- Người dùng có thể chuyển đổi giữa các lớp dữ liệu bằng nút chọn.
-
-### ❤️ 4. **Màn hình “Yêu thích”**
-- Danh sách các **thành phố yêu thích** của người dùng.  
-- Cho phép **xóa** hoặc **xem chi tiết** thông tin thời tiết từng thành phố.
-
-### 🌐 5. **Hỗ trợ song ngữ**
-- Hỗ trợ **2 ngôn ngữ:** 🇻🇳 Tiếng Việt & 🇬🇧 Tiếng Anh.  
-- Tự động thay đổi ngôn ngữ trong cài đặt ứng dụng.
-
+## Màn hình khởi động
+- Giới thiệu ứng dụng
+- Chuyển hướng đến màn hình chính
+## Màn hình chính
+- Hiển thị thời tiết theo vị trí hiện tại
+- Thông tin bao gồm: nhiệt độ, độ ẩm, tốc độ gió, cảm giác thực tế
+- Thanh điều hướng đến các chức năng khác
+## Tìm kiếm thành phố
+- Nhập tên thành phố
+- Gợi ý tự động khi nhập
+- Hiển thị thông tin chi tiết theo thành phố đã chọn
+## Bản đồ thời tiết
+- Hiển thị bản đồ thế giới
+- Chuyển đổi giữa các lớp dữ liệu:
+- Nhiệt độ
+- Lượng mưa
+- Mây
+- Gió
+## Hỗ trợ đa ngôn ngữ
+- Tiếng Việt
+- Tiếng Anh
+- Chuyển đổi trong phần cài đặt
+## Kết quả đạt được
+- Ứng dụng hoạt động ổn định trên Web và thiết bị di động
+- Giao diện thân thiện, dễ sử dụng
+- Thời gian phản hồi nhanh
+- Cấu trúc mã nguồn rõ ràng, tách biệt theo module
+## Hướng phát triển
+- Bổ sung dự báo thời tiết dài hạn (7–14 ngày)
+- Tích hợp thông báo đẩy
+- Tối ưu hiệu suất khi tải bản đồ
+- Phát triển tính năng AI dự đoán xu hướng thời tiết
 ---
 
 ## 🖼️ **Giao diện minh họa**
