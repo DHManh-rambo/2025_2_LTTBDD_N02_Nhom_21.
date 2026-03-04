@@ -5,6 +5,7 @@ import 'package:app_mobile/Search.dart';
 import 'package:app_mobile/Chart.dart';
 import 'package:app_mobile/SearchHistory.dart';
 import 'package:app_mobile/Map.dart';
+import 'package:app_mobile/Setting.dart';
 
 void main() {
   runApp(MyApp());
@@ -209,7 +210,10 @@ class _MenuState extends State<Menu> {
             color: Colors.black87,
             onSelected: (value) async {
               if (value == 'settings') {
-                _showSettingsBottomSheet(context);
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Settings()),
+                );
               }
               if (value == 'search') {
                 await Navigator.push(
@@ -260,36 +264,6 @@ class _MenuState extends State<Menu> {
           ),
         ],
       ),
-    );
-  }
-
-  void _showSettingsBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.black87,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Cài đặt',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 20),
-            ],
-          ),
-        );
-      },
     );
   }
 }
@@ -690,7 +664,7 @@ class ThongTinChiTiet extends StatelessWidget {
 
   Widget box(String title, String value, String sub) {
     return Container(
-      width: 130, // 👈 chiều rộng để thành ô vuông
+      width: 130,
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.18),
         borderRadius: BorderRadius.circular(20),
