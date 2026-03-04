@@ -35,7 +35,7 @@
 
 **????** Application là ứng dụng cung cấp thông tin thời tiết theo thời gian thực, được phát triển bằng Flutter nhằm mục tiêu xây dựng một hệ thống:
 
-- Hoạt động đa nền tảng (Web, Android, iOS)
+- Hoạt động đa nền tảng (Web, Android)
 - Giao diện trực quan, dễ sử dụng
 - Truy xuất dữ liệu nhanh và ổn định
 - Dễ mở rộng và bảo trì
@@ -57,7 +57,7 @@
 | ☁️ **API** | OpenWeatherMap API |
 | 🎨 **Giao diện** | Material Design, Cupertino Style |
 | 🛠️ **Công cụ** | Visual Studio Code |
-| 📱 **Nền tảng chạy** | Web, Android, iOS |
+| 📱 **Nền tảng chạy** | Web, Android|
 
 ---
 
@@ -74,15 +74,10 @@
 - Thanh điều hướng đến các chức năng khác
 ## Tìm kiếm thành phố
 - Nhập tên thành phố
-- Gợi ý tự động khi nhập
 - Hiển thị thông tin chi tiết theo thành phố đã chọn
 ## Bản đồ thời tiết
 - Hiển thị bản đồ thế giới
-- Chuyển đổi giữa các lớp dữ liệu:
-- Nhiệt độ
-- Lượng mưa
-- Mây
-- Gió
+- Hiển thị nhiệt độ chi tiết khi chọn vùng trên bản đồ
 ## Hỗ trợ đa ngôn ngữ
 - Tiếng Việt
 - Tiếng Anh
@@ -107,7 +102,7 @@
 | 🌤️ **Màn hình chính** | !|
 | 🗺️ **Bản đồ thời tiết** | !|
 | 🔎 **Tìm kiếm thành phố** |  |
-| ❤️ **Danh sách yêu thích** | ! |
+
 
 ---
 
