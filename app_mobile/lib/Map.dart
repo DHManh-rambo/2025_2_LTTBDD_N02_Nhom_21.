@@ -37,6 +37,59 @@ class _MAPState extends State<MAP> {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(title: Text("Map ")),
+      body: Stack(
+        children: [
+          FlutterMap(
+            options: MapOptions(
+              initialCenter: selectedPosition,
+              initialZoom: 13,
+              onTap: (tapPosition, point) {
+                setState(() {
+                  selectedPosition = point;
+                });
+                fetchWeather(point.latitude, point.longitude);
+              },
+            ),
+            children: [
+              TileLayer(
+                urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                userAgentPackageName: 'com.example.app',
+              ),
+
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    point: selectedPosition,
+                    width: 40,
+                    height: 40,
+                    child: Icon(Icons.location_on, size: 40, color: Colors.red),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          Positioned(
+            bottom: 20,
+            left: 20,
+            right: 20,
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                weatherInfo,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );;
   }
 }
