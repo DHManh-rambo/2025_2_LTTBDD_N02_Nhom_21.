@@ -6,6 +6,7 @@ import 'package:app_mobile/Chart.dart';
 import 'package:app_mobile/SearchHistory.dart';
 import 'package:app_mobile/Map.dart';
 import 'package:app_mobile/Setting.dart';
+import 'package:app_mobile/Language.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,6 +31,9 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
   late Future<Map<String, dynamic>> weatherFuture;
   late Future<List<dynamic>> forecastFuture;
   List<String> _searchHistory = [];
+  void refreshLanguage() {
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -75,13 +79,25 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
                         SizedBox(height: 20),
                         NhietDoHienTai(city: selectedCity),
                         SizedBox(height: 30),
-                        buildSectionTitle("DỰ BÁO THEO GIỜ"),
+                        buildSectionTitle(
+                          AppLanguage.getText(
+                            "DỰ BÁO THEO GIỜ",
+                            "HOURLY FORECAST",
+                          ),
+                        ),
                         DuBaoTheoGio(city: selectedCity),
                         SizedBox(height: 20),
-                        buildSectionTitle("DỰ BÁO 7 NGÀY"),
+                        buildSectionTitle(
+                          AppLanguage.getText(
+                            "DỰ BÁO 7 NGÀY",
+                            "7 DAY FORECAST",
+                          ),
+                        ),
                         DuBaoTheoNgay(city: selectedCity),
                         SizedBox(height: 20),
-                        buildSectionTitle("CHI TIẾT"),
+                        buildSectionTitle(
+                          AppLanguage.getText("CHI TIẾT", "DETAILS"),
+                        ),
                         ThongTinChiTiet(),
                         SizedBox(height: 40),
                       ],
@@ -90,6 +106,7 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
                 ),
                 Menu(
                   searchHistory: _searchHistory,
+
                   onCityChanged: (city) {
                     setState(() {
                       selectedCity = city;
@@ -98,6 +115,8 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
                     });
                   },
                   onSearchCompleted: _refreshSearchHistory,
+
+                  onLanguageChanged: refreshLanguage,
                 ),
               ],
             ),
@@ -136,12 +155,14 @@ class Menu extends StatefulWidget {
   final List<String> searchHistory;
   final Function(String)? onCityChanged;
   final VoidCallback? onSearchCompleted;
+  final VoidCallback? onLanguageChanged;
 
   const Menu({
     super.key,
     required this.searchHistory,
     this.onCityChanged,
     this.onSearchCompleted,
+    this.onLanguageChanged,
   });
   @override
   State<Menu> createState() => _MenuState();
@@ -210,10 +231,13 @@ class _MenuState extends State<Menu> {
             color: Colors.black87,
             onSelected: (value) async {
               if (value == 'settings') {
-                await Navigator.push(
+                final result = await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Settings()),
                 );
+                if (result == true && mounted) {
+                  widget.onLanguageChanged?.call();
+                }
               }
               if (value == 'search') {
                 await Navigator.push(
@@ -242,20 +266,29 @@ class _MenuState extends State<Menu> {
               return [
                 PopupMenuItem(
                   value: 'search',
-                  child: Text('Search', style: TextStyle(color: Colors.white)),
+                  child: Text(
+                    AppLanguage.getText("Tìm kiếm", "Search"),
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 PopupMenuItem(
                   value: 'map',
-                  child: Text('Map', style: TextStyle(color: Colors.white)),
+                  child: Text(
+                    AppLanguage.getText("Bản đồ", "Map"),
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 PopupMenuItem(
                   value: 'chart',
-                  child: Text('Chart', style: TextStyle(color: Colors.white)),
+                  child: Text(
+                    AppLanguage.getText("Biểu đồ", "Chart"),
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 PopupMenuItem(
                   value: 'settings',
                   child: Text(
-                    'Settings',
+                    AppLanguage.getText("Cài đặt", "Settings"),
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -283,13 +316,13 @@ Future<dynamic> getData(String url) async {
 
 Future<Map<String, dynamic>> fetchCurrentWeather(String city) async {
   return await getData(
-    "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric&lang=vi",
+    "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric&lang=${AppLanguage.current.toLowerCase()}",
   );
 }
 
 Future<List<dynamic>> fetchForecast(String city) async {
   final data = await getData(
-    "https://api.openweathermap.org/data/2.5/forecast?q=$city&appid=$apiKey&units=metric&lang=vi",
+    "https://api.openweathermap.org/data/2.5/forecast?q=$city&appid=$apiKey&units=metric&lang=${AppLanguage.current.toLowerCase()}",
   );
   return data["list"];
 }
@@ -308,7 +341,10 @@ class NhietDoHienTai extends StatelessWidget {
           return CircularProgressIndicator(color: Colors.white);
         }
         if (snapshot.hasError) {
-          return Text("Lỗi tải dữ liệu", style: TextStyle(color: Colors.white));
+          return Text(
+            AppLanguage.getText("Lỗi tải dữ liệu", "Error loading data"),
+            style: TextStyle(color: Colors.white),
+          );
         }
         var data = snapshot.data!;
         var temp = data["main"]["temp"].round();
@@ -389,7 +425,10 @@ class DuBaoTheoGio extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
-              child: Text("Lỗi dữ liệu", style: TextStyle(color: Colors.white)),
+              child: Text(
+                AppLanguage.getText("Lỗi dữ liệu", "Data error"),
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           );
         }
@@ -558,18 +597,15 @@ class DuBaoTheoNgay extends StatelessWidget {
     if (dateTime.year == now.year &&
         dateTime.month == now.month &&
         dateTime.day == now.day) {
-      return "Hôm nay";
+      return AppLanguage.getText("Hôm nay", "Today");
     }
 
-    List<String> weekdays = [
-      "Th 2",
-      "Th 3",
-      "Th 4",
-      "Th 5",
-      "Th 6",
-      "Th 7",
-      "CN",
-    ];
+    List<String> weekdays;
+    if (AppLanguage.current == "VI") {
+      weekdays = ["Th 2", "Th 3", "Th 4", "Th 5", "Th 6", "Th 7", "CN"];
+    } else {
+      weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    }
 
     return weekdays[dateTime.weekday - 1];
   }
@@ -636,11 +672,27 @@ class DuBaoTheoNgay extends StatelessWidget {
 
 // THÔNG TIN CHI TIẾT
 class ThongTinChiTiet extends StatelessWidget {
-  final List<Map<String, String>> details = [
-    {"title": "Gió", "value": "12 km/h", "sub": "Hướng ĐN"},
-    {"title": "Độ ẩm", "value": "90%", "sub": "Điểm sương 19°"},
-    {"title": "Tầm nhìn", "value": "15 km", "sub": "Trong lành"},
-    {"title": "Mặt trời", "value": "06:22", "sub": "Lặn 17:57"},
+  final details = [
+    {
+      "title": AppLanguage.getText("Gió", "Wind"),
+      "value": "12 km/h",
+      "sub": AppLanguage.getText("Hướng ĐN", "SE Direction"),
+    },
+    {
+      "title": AppLanguage.getText("Độ ẩm", "Humidity"),
+      "value": "90%",
+      "sub": AppLanguage.getText("Điểm sương 19°", "Dew point 19°"),
+    },
+    {
+      "title": AppLanguage.getText("Tầm nhìn", "Visibility"),
+      "value": "15 km",
+      "sub": AppLanguage.getText("Trong lành", "Clear"),
+    },
+    {
+      "title": AppLanguage.getText("Mặt trời", "Sun"),
+      "value": "06:22",
+      "sub": AppLanguage.getText("Lặn 17:57", "Sunset 17:57"),
+    },
   ];
 
   @override

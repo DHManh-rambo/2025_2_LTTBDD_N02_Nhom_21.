@@ -43,6 +43,7 @@ class _SettingsState extends State<Settings> {
                   language = value!;
                   AppLanguage.current = language;
                 });
+                Navigator.pop(context, true);
               },
             ),
           ),
