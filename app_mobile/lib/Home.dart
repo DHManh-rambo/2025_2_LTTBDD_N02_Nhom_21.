@@ -7,6 +7,7 @@ import 'package:app_mobile/SearchHistory.dart';
 import 'package:app_mobile/Map.dart';
 import 'package:app_mobile/Setting.dart';
 import 'package:app_mobile/Language.dart';
+import 'package:app_mobile/main.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -264,6 +265,13 @@ class _MenuState extends State<Menu> {
             },
             itemBuilder: (BuildContext context) {
               return [
+                 PopupMenuItem(
+                    value: 'home',
+                    child: Text(
+                     AppLanguage.getText("Trang chủ", "Home"),
+                    style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 PopupMenuItem(
                   value: 'search',
                   child: Text(
