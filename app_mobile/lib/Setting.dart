@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'language.dart';
+import 'package:app_mobile/Language.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -43,7 +43,6 @@ class _SettingsState extends State<Settings> {
                   language = value!;
                   AppLanguage.current = language;
                 });
-                Navigator.pop(context, true);
               },
             ),
           ),

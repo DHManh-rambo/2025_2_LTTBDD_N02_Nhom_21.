@@ -8,10 +8,6 @@ import 'package:app_mobile/Map.dart';
 import 'package:app_mobile/Setting.dart';
 import 'package:app_mobile/Language.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -32,7 +28,10 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
   late Future<List<dynamic>> forecastFuture;
   List<String> _searchHistory = [];
   void refreshLanguage() {
-    setState(() {});
+    setState(() {
+      weatherFuture = fetchCurrentWeather(selectedCity);
+      forecastFuture = fetchForecast(selectedCity);
+    });
   }
 
   @override
@@ -77,7 +76,7 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
                     child: Column(
                       children: [
                         SizedBox(height: 20),
-                        NhietDoHienTai(city: selectedCity),
+                        NhietDoHienTai(weatherFuture: weatherFuture),
                         SizedBox(height: 30),
                         buildSectionTitle(
                           AppLanguage.getText(
@@ -231,11 +230,12 @@ class _MenuState extends State<Menu> {
             color: Colors.black87,
             onSelected: (value) async {
               if (value == 'settings') {
-                final result = await Navigator.push(
+                await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Settings()),
                 );
-                if (result == true && mounted) {
+
+                if (mounted) {
                   widget.onLanguageChanged?.call();
                 }
               }
@@ -329,13 +329,13 @@ Future<List<dynamic>> fetchForecast(String city) async {
 // Nhiệt độ hiện tại
 
 class NhietDoHienTai extends StatelessWidget {
-  final String city;
+  final Future<Map<String, dynamic>> weatherFuture;
 
-  const NhietDoHienTai({required this.city});
+  const NhietDoHienTai({required this.weatherFuture});
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
-      future: fetchCurrentWeather(city),
+      future: weatherFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator(color: Colors.white);
@@ -672,31 +672,30 @@ class DuBaoTheoNgay extends StatelessWidget {
 
 // THÔNG TIN CHI TIẾT
 class ThongTinChiTiet extends StatelessWidget {
-  final details = [
-    {
-      "title": AppLanguage.getText("Gió", "Wind"),
-      "value": "12 km/h",
-      "sub": AppLanguage.getText("Hướng ĐN", "SE Direction"),
-    },
-    {
-      "title": AppLanguage.getText("Độ ẩm", "Humidity"),
-      "value": "90%",
-      "sub": AppLanguage.getText("Điểm sương 19°", "Dew point 19°"),
-    },
-    {
-      "title": AppLanguage.getText("Tầm nhìn", "Visibility"),
-      "value": "15 km",
-      "sub": AppLanguage.getText("Trong lành", "Clear"),
-    },
-    {
-      "title": AppLanguage.getText("Mặt trời", "Sun"),
-      "value": "06:22",
-      "sub": AppLanguage.getText("Lặn 17:57", "Sunset 17:57"),
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final details = [
+      {
+        "title": AppLanguage.getText("Gió", "Wind"),
+        "value": "12 km/h",
+        "sub": AppLanguage.getText("Hướng ĐN", "SE Direction"),
+      },
+      {
+        "title": AppLanguage.getText("Độ ẩm", "Humidity"),
+        "value": "90%",
+        "sub": AppLanguage.getText("Điểm sương 19°", "Dew point 19°"),
+      },
+      {
+        "title": AppLanguage.getText("Tầm nhìn", "Visibility"),
+        "value": "15 km",
+        "sub": AppLanguage.getText("Trong lành", "Clear"),
+      },
+      {
+        "title": AppLanguage.getText("Mặt trời", "Sun"),
+        "value": "06:22",
+        "sub": AppLanguage.getText("Lặn 17:57", "Sunset 17:57"),
+      },
+    ];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: SizedBox(
