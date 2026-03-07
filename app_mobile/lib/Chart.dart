@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:app_mobile/Language.dart';
 
 class Chart extends StatefulWidget {
   const Chart({super.key});
@@ -45,7 +46,10 @@ class _ChartState extends State<Chart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Biểu đồ thời tiết"), centerTitle: true),
+      appBar: AppBar(
+        title: Text(AppLanguage.getText("Biểu đồ thời tiết", "Weather Chart")),
+        centerTitle: true,
+      ),
 
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -63,7 +67,7 @@ class _ChartState extends State<Chart> {
                         selectedType = "24h";
                       });
                     },
-                    child: const Text("24h"),
+                    child: Text(AppLanguage.getText("24 giờ", "24 Hours")),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -74,7 +78,7 @@ class _ChartState extends State<Chart> {
                         selectedType = "7day";
                       });
                     },
-                    child: const Text("7 ngày"),
+                    child: Text(AppLanguage.getText("7 ngày", "7 Days")),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -85,7 +89,7 @@ class _ChartState extends State<Chart> {
                         selectedType = "rain";
                       });
                     },
-                    child: const Text("Mưa"),
+                    child: Text(AppLanguage.getText("Mưa", "Rain")),
                   ),
                 ),
               ],
@@ -147,16 +151,30 @@ class _ChartState extends State<Chart> {
     if (selectedType == "24h") {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text("Biểu đồ thể hiện nhiệt độ thay đổi trong 24 giờ gần nhất."),
-          SizedBox(height: 4),
-          Text("Chú Thích.", style: TextStyle(color: Colors.grey)),
+        children: [
           Text(
-            "trục X: thể hiện số ngày từ 1 -> 24h. ",
+            AppLanguage.getText(
+              "Biểu đồ thể hiện nhiệt độ thay đổi trong 24 giờ gần nhất.",
+              "This chart shows temperature changes over the last 24 hours.",
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            AppLanguage.getText("Chú thích.", "Legend"),
             style: TextStyle(color: Colors.grey),
           ),
           Text(
-            "trục Y: thể hiện nhiệt độ (độ C). ",
+            AppLanguage.getText(
+              "Trục X: thể hiện số giờ từ 1 -> 24.",
+              "X axis: shows hours from 1 -> 24.",
+            ),
+            style: TextStyle(color: Colors.grey),
+          ),
+          Text(
+            AppLanguage.getText(
+              "Trục Y: thể hiện nhiệt độ (°C).",
+              "Y axis: shows temperature (°C).",
+            ),
             style: TextStyle(color: Colors.grey),
           ),
         ],
@@ -164,16 +182,30 @@ class _ChartState extends State<Chart> {
     } else if (selectedType == "7day") {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text("Biểu đồ thể hiện nhiệt độ thay đổi trong 7 ngày gần nhất."),
-          SizedBox(height: 4),
-          Text("Chú Thích.", style: TextStyle(color: Colors.grey)),
+        children: [
           Text(
-            "trục X: thể hiện số ngày từ 1 -> 7. ",
+            AppLanguage.getText(
+              "Biểu đồ thể hiện nhiệt độ thay đổi trong 7 ngày gần nhất.",
+              "This chart shows temperature changes over the last 7 days.",
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            AppLanguage.getText("Chú thích.", "Legend"),
             style: TextStyle(color: Colors.grey),
           ),
           Text(
-            "trục Y: thể hiện nhiệt độ (độ C). ",
+            AppLanguage.getText(
+              "Trục X: thể hiện số giờ từ 1 -> 24.",
+              "X axis: shows hours from 1 -> 24.",
+            ),
+            style: TextStyle(color: Colors.grey),
+          ),
+          Text(
+            AppLanguage.getText(
+              "Trục Y: thể hiện nhiệt độ (°C).",
+              "Y axis: shows temperature (°C).",
+            ),
             style: TextStyle(color: Colors.grey),
           ),
         ],
@@ -181,16 +213,30 @@ class _ChartState extends State<Chart> {
     } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text("Biểu đồ thể hiện lượng mưa trong 7 ngày gần nhất (mm)."),
-          SizedBox(height: 4),
-          Text("Chú Thích.", style: TextStyle(color: Colors.grey)),
+        children: [
           Text(
-            "trục X: thể hiện số ngày từ 1 -> 7. ",
+            AppLanguage.getText(
+              "Biểu đồ thể hiện nhiệt độ thay đổi trong 7 ngày gần nhất.",
+              "This chart shows temperature changes over the last 7 days.",
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            AppLanguage.getText("Chú thích.", "Legend"),
             style: TextStyle(color: Colors.grey),
           ),
           Text(
-            "trục Y: thể hiện lượng mưa(mm). ",
+            AppLanguage.getText(
+              "Trục X: thể hiện số ngày từ 1 -> 7.",
+              "X axis: shows days from 1 -> 7.",
+            ),
+            style: TextStyle(color: Colors.grey),
+          ),
+          Text(
+            AppLanguage.getText(
+              "Biểu đồ thể hiện lượng mưa trong 7 ngày gần nhất (mm).",
+              "This chart shows rainfall over the last 7 days (mm).",
+            ),
             style: TextStyle(color: Colors.grey),
           ),
         ],

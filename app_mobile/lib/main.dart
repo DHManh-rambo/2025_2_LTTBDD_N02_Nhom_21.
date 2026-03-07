@@ -1,6 +1,7 @@
 import 'package:app_mobile/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:app_mobile/Language.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -70,12 +71,12 @@ class WeatherStart extends StatelessWidget {
             const SizedBox(height: 30),
 
             //  CHILD 2: dòng chữ giới thiệu
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text(
                 AppLanguage.getText(
-                   'Dự báo thời tiết chính xác, cập nhật mọi lúc mọi nơi',
-                    'Accurate weather forecast, updated anytime anywhere'
+                  'Dự báo thời tiết chính xác, cập nhật mọi lúc mọi nơi',
+                  'Accurate weather forecast, updated anytime anywhere',
                 ),
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -103,11 +104,8 @@ class WeatherStart extends StatelessWidget {
                 ),
                 elevation: 6,
               ),
-              child: const Text(
-                AppLanguage.getText(
-                  'Bắt đầu ngay',
-                 'Get Started'
-                  ),
+              child: Text(
+                AppLanguage.getText('Bắt đầu ngay', 'Get Started'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,

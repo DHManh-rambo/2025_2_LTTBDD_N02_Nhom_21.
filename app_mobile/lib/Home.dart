@@ -230,6 +230,13 @@ class _MenuState extends State<Menu> {
             icon: Icon(Icons.menu, color: Colors.white, size: 32),
             color: Colors.black87,
             onSelected: (value) async {
+              if (value == 'home') {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => WeatherStart()),
+                  (route) => false,
+                );
+              }
               if (value == 'settings') {
                 await Navigator.push(
                   context,
@@ -265,13 +272,13 @@ class _MenuState extends State<Menu> {
             },
             itemBuilder: (BuildContext context) {
               return [
-                 PopupMenuItem(
-                    value: 'home',
-                    child: Text(
-                     AppLanguage.getText("Trang chủ", "Home"),
+                PopupMenuItem(
+                  value: 'home',
+                  child: Text(
+                    AppLanguage.getText("Trang chủ", "Home"),
                     style: TextStyle(color: Colors.white),
-                    ),
                   ),
+                ),
                 PopupMenuItem(
                   value: 'search',
                   child: Text(
