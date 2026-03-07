@@ -40,8 +40,9 @@ class _SearchState extends State<Search> {
       setState(() {
         _errorMessage = AppLanguage.getText(
              "Vui lòng nhập tên thành phố",
-              "Please enter a city name";
-            });
+              "Please enter a city name"
+            );
+      });
       return;
     }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
+import 'package:app_mobile/Language.dart';
 
 class MAP extends StatefulWidget {
   const MAP({Key? key}) : super(key: key);
@@ -13,7 +14,10 @@ class MAP extends StatefulWidget {
 
 class _MAPState extends State<MAP> {
   LatLng selectedPosition = LatLng(21.0285, 105.8542);
-  String weatherInfo = "Nhấn vào bản đồ để xem thời tiết";
+  String weatherInfo = AppLanguage.getText(
+    "Nhấn vào bản đồ để xem thời tiết",
+    "Tap on the map to see weather",
+  );
 
   Future<void> fetchWeather(double lat, double lon) async {
     String apiKey = "21e22af1cab731edfd013dcefac288d5";
@@ -30,7 +34,9 @@ class _MAPState extends State<MAP> {
       String description = data['weather'][0]['description'];
 
       setState(() {
-        weatherInfo = "🌡 $temp°C\n☁ $description";
+        weatherInfo =
+            "${AppLanguage.getText("Nhiệt độ", "Temperature")}: $temp°C\n"
+            "${AppLanguage.getText("Thời tiết", "Weather")}: $description";
       });
     }
   }
@@ -38,7 +44,9 @@ class _MAPState extends State<MAP> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Map ")),
+      appBar: AppBar(
+        title: Text(AppLanguage.getText("Bản đồ thời tiết", "Weather Map")),
+      ),
       body: Stack(
         children: [
           FlutterMap(
@@ -90,6 +98,7 @@ class _MAPState extends State<MAP> {
           ),
         ],
       ),
-    );;
+    );
+    ;
   }
 }
