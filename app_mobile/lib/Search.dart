@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_mobile/Language.dart';
 
 const String apiKey = "21e22af1cab731edfd013dcefac288d5";
 
@@ -37,8 +38,10 @@ class _SearchState extends State<Search> {
 
     if (city.isEmpty) {
       setState(() {
-        _errorMessage = "Vui lòng nhập tên thành phố";
-      });
+        _errorMessage = AppLanguage.getText(
+             "Vui lòng nhập tên thành phố",
+              "Please enter a city name";
+            });
       return;
     }
 
@@ -50,7 +53,7 @@ class _SearchState extends State<Search> {
 
     try {
       final url =
-          "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric&lang=vi";
+          "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric&lang=${AppLanguage.current.toLowerCase()}";
 
       final response = await http.get(Uri.parse(url));
 
@@ -66,13 +69,19 @@ class _SearchState extends State<Search> {
         await _loadHistory();
       } else {
         setState(() {
-          _errorMessage = "Không tìm thấy thành phố";
+          _errorMessage = AppLanguage.getText(
+             "Không tìm thấy thành phố",
+             "City not found",
+            );
           _isLoading = false;
         });
       }
     } catch (e) {
       setState(() {
-        _errorMessage = "Lỗi kết nối, vui lòng thử lại";
+        _errorMessage = AppLanguage.getText(
+           "Lỗi kết nối, vui lòng thử lại",
+          "Connection error, please try again",
+          );
         _isLoading = false;
       });
     }
@@ -91,7 +100,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Tìm kiếm "), backgroundColor: Colors.orange),
+      appBar: AppBar(title: Text(AppLanguage.getText("Tìm kiếm", "Search")), backgroundColor: Colors.orange),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -99,7 +108,10 @@ class _SearchState extends State<Search> {
             TextField(
               controller: _cityController,
               decoration: InputDecoration(
-                hintText: "Nhập tên thành phố...",
+                hintText: AppLanguage.getText(
+                    "Nhập tên thành phố...",
+                    "Enter city name...",
+                    ),
                 border: OutlineInputBorder(),
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search),
@@ -115,7 +127,10 @@ class _SearchState extends State<Search> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Lịch sử tìm kiếm:",
+                  AppLanguage.getText(
+              "Lịch sử tìm kiếm:",
+              "Search history:",
+                ),
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -171,15 +186,15 @@ class _SearchState extends State<Search> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _buildInfoColumn(
-                    "Độ ẩm",
+                    AppLanguage.getText("Độ ẩm", "Humidity"),
                     "${_weatherData!["main"]["humidity"]}%",
                   ),
                   _buildInfoColumn(
-                    "Gió",
+                    AppLanguage.getText("Gió", "Wind"),
                     "${_weatherData!["wind"]["speed"]} m/s",
                   ),
                   _buildInfoColumn(
-                    "Áp suất",
+                    AppLanguage.getText("Áp suất", "Pressure"),
                     "${_weatherData!["main"]["pressure"]} hPa",
                   ),
                 ],
