@@ -8,6 +8,7 @@ import 'package:app_mobile/Map.dart';
 import 'package:app_mobile/Setting.dart';
 import 'package:app_mobile/Language.dart';
 import 'package:app_mobile/main.dart';
+import 'package:app_mobile/Unit.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -362,10 +363,10 @@ class NhietDoHienTai extends StatelessWidget {
           );
         }
         var data = snapshot.data!;
-        var temp = data["main"]["temp"].round();
+        double temp = UnitSettings.convertTemperature(data["main"]["temp"]);
         var description = data["weather"][0]["description"];
-        var max = data["main"]["temp_max"].round();
-        var min = data["main"]["temp_min"].round();
+        double max = UnitSettings.convertTemperature(data["main"]["temp_max"]);
+        double min = UnitSettings.convertTemperature(data["main"]["temp_min"]);
 
         return Column(
           children: [
@@ -374,7 +375,7 @@ class NhietDoHienTai extends StatelessWidget {
                 colors: [Color(0xFFFFFF00), Color(0xFFFFA500)],
               ).createShader(bounds),
               child: Text(
-                "$temp°",
+                "$temp°""${temp.round()}${UnitSettings.temperatureSymbol()}",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 110,
@@ -394,7 +395,7 @@ class NhietDoHienTai extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              "C:$max°  T:$min°",
+              "C:${max.round()}${UnitSettings.temperatureSymbol()}  T:${min.round()}${UnitSettings.temperatureSymbol()}",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -465,7 +466,7 @@ class DuBaoTheoGio extends StatelessWidget {
             itemBuilder: (context, index) {
               var item = hourly[index];
               String timeStr = item["dt_txt"].substring(11, 13);
-              var temp = item["main"]["temp"].round().toString();
+              double temp = UnitSettings.convertTemperature(item["main"]["temp"]);
               var iconCode = item["weather"][0]["icon"];
               IconData iconData = getWeatherIcon(iconCode);
 
@@ -488,7 +489,7 @@ class DuBaoTheoGio extends StatelessWidget {
                         colors: [Color(0xFFFFFF00), Color(0xFFFFA500)],
                       ).createShader(bounds),
                       child: Text(
-                        "$temp°",
+                        "${temp.round()}${UnitSettings.temperatureSymbol()}",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -556,7 +557,7 @@ class DuBaoTheoNgay extends StatelessWidget {
           double rainTotal = 0;
 
           for (var item in dayData) {
-            double temp = item["main"]["temp"];
+            double temp = UnitSettings.convertTemperature(item["main"]["temp"]);
 
             if (temp < minTemp) minTemp = temp;
             if (temp > maxTemp) maxTemp = temp;
@@ -571,8 +572,8 @@ class DuBaoTheoNgay extends StatelessWidget {
           dayWidgets.add(
             dayItem({
               "day": getDayName(date),
-              "min": "${minTemp.round()}°",
-              "max": "${maxTemp.round()}°",
+              "min": "${minTemp.round()}${UnitSettings.temperatureSymbol()}",
+              "max": "${maxTemp.round()}${UnitSettings.temperatureSymbol()}",
               "rain": rainText,
             }),
           );
@@ -692,7 +693,8 @@ class ThongTinChiTiet extends StatelessWidget {
     final details = [
       {
         "title": AppLanguage.getText("Gió", "Wind"),
-        "value": "12 km/h",
+        double wind = UnitSettings.convertWindSpeed(12);
+        "value": "${wind.round()} ${UnitSettings.windSpeedSymbol()}",,
         "sub": AppLanguage.getText("Hướng ĐN", "SE Direction"),
       },
       {

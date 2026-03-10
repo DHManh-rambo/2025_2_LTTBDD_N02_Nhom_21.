@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_mobile/Language.dart';
+import 'package:app_mobile/Unit.dart';
 
 const String apiKey = "21e22af1cab731edfd013dcefac288d5";
 
@@ -172,7 +173,7 @@ class _SearchState extends State<Search> {
               ),
 
               Text(
-                "${_weatherData!["main"]["temp"].round()}°C",
+                "${UnitSettings.convertTemperature(_weatherData!["main"]["temp"]).round()}${UnitSettings.temperatureSymbol()}",
                 style: TextStyle(fontSize: 64, fontWeight: FontWeight.w200),
               ),
 
@@ -192,7 +193,7 @@ class _SearchState extends State<Search> {
                   ),
                   _buildInfoColumn(
                     AppLanguage.getText("Gió", "Wind"),
-                    "${_weatherData!["wind"]["speed"]} m/s",
+                    "${UnitSettings.convertWindSpeed(_weatherData!["wind"]["speed"]).round()} ${UnitSettings.windSpeedSymbol()}",
                   ),
                   _buildInfoColumn(
                     AppLanguage.getText("Áp suất", "Pressure"),

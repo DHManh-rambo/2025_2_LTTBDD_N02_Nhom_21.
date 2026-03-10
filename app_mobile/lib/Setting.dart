@@ -10,17 +10,25 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   String language = AppLanguage.current;
+  String tempUnit = "C"; 
+  String windUnit = "MS";
   @override
   Widget build(BuildContext context) {
     String title;
     String languageText;
+    String tempText;
+    String windText;
 
     if (language == "VI") {
       title = "Cài đặt";
       languageText = "Ngôn ngữ";
+      tempText = "Đơn vị nhiệt độ";
+      windText = "Đơn vị tốc độ gió";
     } else {
       title = "Settings";
       languageText = "Language";
+       tempText = "Temperature Unit";
+      windText = "Wind Speed Unit";
     }
     return Scaffold(
       appBar: AppBar(title: Text(title)),
@@ -42,6 +50,36 @@ class _SettingsState extends State<Settings> {
                 setState(() {
                   language = value!;
                   AppLanguage.current = language;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            title: Text(tempText),
+            trailing: DropdownButton(
+              value: tempUnit,
+              items: const [
+                DropdownMenuItem(value: "C", child: Text("°C")),
+                DropdownMenuItem(value: "F", child: Text("°F")),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  tempUnit = value!;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            title: Text(windText),
+            trailing: DropdownButton(
+              value: windUnit,
+              items: const [
+                DropdownMenuItem(value: "MS", child: Text("m/s")),
+                DropdownMenuItem(value: "KMH", child: Text("km/h")),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  windUnit = value!;
                 });
               },
             ),
