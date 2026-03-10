@@ -4,6 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_mobile/Language.dart';
+import 'package:app_mobile/Unit.dart';
 
 class MAP extends StatefulWidget {
   const MAP({Key? key}) : super(key: key);
@@ -30,12 +31,12 @@ class _MAPState extends State<MAP> {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
 
-      double temp = data['main']['temp'];
+      double temp = UnitSettings.convertTemperature(data['main']['temp']);
       String description = data['weather'][0]['description'];
 
       setState(() {
         weatherInfo =
-            "${AppLanguage.getText("Nhiệt độ", "Temperature")}: $temp°C\n"
+            "${AppLanguage.getText("Nhiệt độ", "Temperature")}: ${temp.round()}${UnitSettings.temperatureSymbol()}\n"
             "${AppLanguage.getText("Thời tiết", "Weather")}: $description";
       });
     }

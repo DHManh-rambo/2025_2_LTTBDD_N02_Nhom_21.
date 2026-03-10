@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:app_mobile/Language.dart';
+import 'package:app_mobile/Unit.dart';
 
 class Chart extends StatefulWidget {
   const Chart({super.key});
@@ -143,7 +144,10 @@ class _ChartState extends State<Chart> {
 
     return List.generate(
       data.length,
-      (index) => FlSpot((index + 1).toDouble(), data[index]),
+      (index) => FlSpot(
+        (index + 1).toDouble(),
+        UnitSettings.convertTemperature(data[index]),
+      ),
     );
   }
 
@@ -172,7 +176,7 @@ class _ChartState extends State<Chart> {
           ),
           Text(
             AppLanguage.getText(
-              "Trục Y: thể hiện nhiệt độ (°C).",
+              "Trục Y: thể hiện nhiệt độ (${UnitSettings.temperatureSymbol()}).",
               "Y axis: shows temperature (°C).",
             ),
             style: TextStyle(color: Colors.grey),
@@ -196,14 +200,14 @@ class _ChartState extends State<Chart> {
           ),
           Text(
             AppLanguage.getText(
-              "Trục X: thể hiện số giờ từ 1 -> 24.",
-              "X axis: shows hours from 1 -> 24.",
+              "Trục X: thể hiện số ngày từ 1 -> 7.",
+              "X axis: shows days from 1 -> 7.",
             ),
             style: TextStyle(color: Colors.grey),
           ),
           Text(
             AppLanguage.getText(
-              "Trục Y: thể hiện nhiệt độ (°C).",
+              "Trục Y: thể hiện nhiệt độ (${UnitSettings.temperatureSymbol()}).",
               "Y axis: shows temperature (°C).",
             ),
             style: TextStyle(color: Colors.grey),
