@@ -3,6 +3,7 @@ import 'package:app_mobile/Language.dart';
 import 'package:app_mobile/Unit.dart';
 import 'package:app_mobile/GroupInfo.dart';
 import 'package:app_mobile/AppTheme.dart';
+import 'package:app_mobile/main.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -112,6 +113,7 @@ class _SettingsState extends State<Settings> {
                   darkMode = value;
                   AppTheme.darkMode = value;
                 });
+                MyApp.of(context)?.refreshTheme();
               },
             ),
           ),

@@ -7,8 +7,20 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  void refreshTheme() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +34,13 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       theme: ThemeData(brightness: Brightness.light),
 
       darkTheme: ThemeData(brightness: Brightness.dark),
 
       themeMode: mode,
+
       home: WeatherStart(),
     );
   }

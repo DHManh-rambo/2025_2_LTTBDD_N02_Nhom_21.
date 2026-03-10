@@ -11,13 +11,6 @@ import 'package:app_mobile/main.dart';
 import 'package:app_mobile/Unit.dart';
 import 'package:app_mobile/AppTheme.dart';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: ManHinhGPS());
-  }
-}
-
 class ManHinhGPS extends StatefulWidget {
   const ManHinhGPS({super.key});
 
@@ -77,7 +70,15 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
             ),
           ),
 
-          Container(color: Colors.black.withOpacity(0.15)),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.transparent, Colors.black.withOpacity(0.25)],
+              ),
+            ),
+          ),
 
           SafeArea(
             child: Column(
@@ -148,7 +149,7 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
           child: Text(
             title,
             style: TextStyle(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onBackground,
               fontSize: 22,
               fontWeight: FontWeight.w700,
               letterSpacing: 1.2,
@@ -179,7 +180,7 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-  String selectedCity = "Hà Nội";
+  String selectedCity = "Hanoi";
 
   @override
   void didUpdateWidget(covariant Menu oldWidget) {
@@ -197,9 +198,10 @@ class _MenuState extends State<Menu> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        border: Border(top: BorderSide(color: Colors.white24, width: 1)),
+        color: Theme.of(context).cardColor.withOpacity(0.1),
+        border: Border(
+          top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -225,20 +227,26 @@ class _MenuState extends State<Menu> {
                 Text(
                   selectedCity,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onBackground,
                     fontSize: 28,
                     fontWeight: FontWeight.w600,
-                    shadows: [Shadow(blurRadius: 8, color: Colors.black38)],
                   ),
                 ),
-                Icon(Icons.arrow_drop_down, color: Colors.white),
+                Icon(
+                  Icons.arrow_drop_down,
+                  color: Theme.of(context).iconTheme.color,
+                ),
               ],
             ),
           ),
 
           PopupMenuButton<String>(
-            icon: Icon(Icons.menu, color: Colors.white, size: 32),
-            color: Colors.black87,
+            icon: Icon(
+              Icons.menu,
+              color: Theme.of(context).iconTheme.color,
+              size: 32,
+            ),
+            color: Theme.of(context).cardColor,
             onSelected: (value) async {
               if (value == 'home') {
                 Navigator.pushAndRemoveUntil(
@@ -286,35 +294,45 @@ class _MenuState extends State<Menu> {
                   value: 'home',
                   child: Text(
                     AppLanguage.getText("Trang chủ", "Home"),
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
                   ),
                 ),
                 PopupMenuItem(
                   value: 'search',
                   child: Text(
                     AppLanguage.getText("Tìm kiếm", "Search"),
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
                   ),
                 ),
                 PopupMenuItem(
                   value: 'map',
                   child: Text(
                     AppLanguage.getText("Bản đồ", "Map"),
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
                   ),
                 ),
                 PopupMenuItem(
                   value: 'chart',
                   child: Text(
                     AppLanguage.getText("Biểu đồ", "Chart"),
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
                   ),
                 ),
                 PopupMenuItem(
                   value: 'settings',
                   child: Text(
                     AppLanguage.getText("Cài đặt", "Settings"),
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
                   ),
                 ),
               ];
@@ -363,12 +381,14 @@ class NhietDoHienTai extends StatelessWidget {
       future: weatherFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(color: Colors.white);
+          return CircularProgressIndicator(
+            color: Theme.of(context).colorScheme.primary,
+          );
         }
         if (snapshot.hasError) {
           return Text(
             AppLanguage.getText("Lỗi tải dữ liệu", "Error loading data"),
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
           );
         }
         var data = snapshot.data!;
@@ -386,29 +406,38 @@ class NhietDoHienTai extends StatelessWidget {
               child: Text(
                 "${temp.round()}${UnitSettings.temperatureSymbol()}",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onBackground,
                   fontSize: 110,
                   fontWeight: FontWeight.w200,
-                  shadows: [Shadow(blurRadius: 10, color: Colors.black26)],
+                  shadows: [
+                    Shadow(
+                      blurRadius: 10,
+                      color: Theme.of(context).shadowColor,
+                    ),
+                  ],
                 ),
               ),
             ),
             Text(
               description,
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onBackground,
                 fontSize: 24,
                 fontWeight: FontWeight.w500,
-                shadows: [Shadow(blurRadius: 6, color: Colors.black38)],
+                shadows: [
+                  Shadow(blurRadius: 6, color: Theme.of(context).shadowColor),
+                ],
               ),
             ),
             SizedBox(height: 10),
             Text(
               "C:${max.round()}${UnitSettings.temperatureSymbol()}  T:${min.round()}${UnitSettings.temperatureSymbol()}",
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onBackground,
                 fontSize: 18,
-                shadows: [Shadow(blurRadius: 4, color: Colors.black38)],
+                shadows: [
+                  Shadow(blurRadius: 4, color: Theme.of(context).shadowColor),
+                ],
               ),
             ),
           ],
@@ -433,11 +462,13 @@ class DuBaoTheoGio extends StatelessWidget {
             height: 130,
             margin: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.12),
+              color: Colors.white.withOpacity(0.15),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
-              child: CircularProgressIndicator(color: Colors.white),
+              child: CircularProgressIndicator(
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
           );
         }
@@ -446,13 +477,15 @@ class DuBaoTheoGio extends StatelessWidget {
             height: 130,
             margin: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.12),
+              color: Colors.white.withOpacity(0.15),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
               child: Text(
                 AppLanguage.getText("Lỗi dữ liệu", "Data error"),
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
               ),
             ),
           );
@@ -464,9 +497,8 @@ class DuBaoTheoGio extends StatelessWidget {
           height: 130,
           margin: EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.12),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white24, width: 1),
+            color: Colors.white.withOpacity(0.15),
+            border: Border.all(color: Theme.of(context).dividerColor, width: 1),
           ),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -489,12 +521,14 @@ class DuBaoTheoGio extends StatelessWidget {
                     Text(
                       "${timeStr}h",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onBackground.withOpacity(0.9),
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Icon(iconData, color: Colors.white70, size: 26),
+                    Icon(iconData, color: Theme.of(context).iconTheme.color),
                     ShaderMask(
                       shaderCallback: (bounds) => LinearGradient(
                         colors: [Color(0xFFFFFF00), Color(0xFFFFA500)],
@@ -502,7 +536,7 @@ class DuBaoTheoGio extends StatelessWidget {
                       child: Text(
                         "${temp.round()}${UnitSettings.temperatureSymbol()}",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onBackground,
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                         ),
@@ -541,7 +575,7 @@ class DuBaoTheoNgay extends StatelessWidget {
       future: fetchForecast(city),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return buildLoading();
+          return buildLoading(context);
         }
 
         List<dynamic> forecastList = snapshot.data!;
@@ -581,7 +615,7 @@ class DuBaoTheoNgay extends StatelessWidget {
           String rainText = rainAvg > 0 ? "${(rainAvg * 100).round()}%" : "0%";
 
           dayWidgets.add(
-            dayItem({
+            dayItem(context, {
               "day": getDayName(date),
               "min": "${minTemp.round()}${UnitSettings.temperatureSymbol()}",
               "max": "${maxTemp.round()}${UnitSettings.temperatureSymbol()}",
@@ -595,9 +629,8 @@ class DuBaoTheoNgay extends StatelessWidget {
         return Container(
           margin: EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.12),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white24),
+            color: Theme.of(context).cardColor.withOpacity(0.15),
+            border: Border.all(color: Theme.of(context).dividerColor),
           ),
           child: Column(children: dayWidgets),
         );
@@ -605,15 +638,19 @@ class DuBaoTheoNgay extends StatelessWidget {
     );
   }
 
-  Widget buildLoading() {
+  Widget buildLoading(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16),
       height: 120,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.12),
+        color: Colors.white.withOpacity(0.15),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Center(child: CircularProgressIndicator(color: Colors.white)),
+      child: Center(
+        child: CircularProgressIndicator(
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
     );
   }
 
@@ -637,7 +674,7 @@ class DuBaoTheoNgay extends StatelessWidget {
     return weekdays[dateTime.weekday - 1];
   }
 
-  Widget dayItem(Map<String, String> item) {
+  Widget dayItem(BuildContext context, Map<String, String> item) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
@@ -645,12 +682,17 @@ class DuBaoTheoNgay extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
-                item["day"]!,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+              ShaderMask(
+                shaderCallback: (bounds) => LinearGradient(
+                  colors: [Color(0xFF4FACFE), Color(0xFF00F2FE)],
+                ).createShader(bounds),
+                child: Text(
+                  item["day"]!,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               if (item["rain"] != "0%")
@@ -665,9 +707,14 @@ class DuBaoTheoNgay extends StatelessWidget {
           ),
           Row(
             children: [
-              Text(
-                item["min"]!,
-                style: TextStyle(color: Colors.white70, fontSize: 16),
+              ShaderMask(
+                shaderCallback: (bounds) => LinearGradient(
+                  colors: [Color(0xFFA0A0A0), Color(0xFFFFFFFF)],
+                ).createShader(bounds),
+                child: Text(
+                  item["min"]!,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
               ),
               SizedBox(width: 20),
               Container(
@@ -675,18 +722,23 @@ class DuBaoTheoNgay extends StatelessWidget {
                 height: 6,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.blue, Colors.orange],
+                    colors: [Color(0xFF4FACFE), Color(0xFFFFA500)],
                   ),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
               SizedBox(width: 20),
-              Text(
-                item["max"]!,
-                style: TextStyle(
-                  color: Colors.orangeAccent,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+              ShaderMask(
+                shaderCallback: (bounds) => LinearGradient(
+                  colors: [Color(0xFFFFA500), Color(0xFFFF4500)],
+                ).createShader(bounds),
+                child: Text(
+                  item["max"]!,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ],
@@ -734,20 +786,19 @@ class ThongTinChiTiet extends StatelessWidget {
           separatorBuilder: (context, index) => const SizedBox(width: 12),
           itemBuilder: (context, index) {
             final item = details[index];
-            return box(item["title"]!, item["value"]!, item["sub"]!);
+            return box(context, item["title"]!, item["value"]!, item["sub"]!);
           },
         ),
       ),
     );
   }
 
-  Widget box(String title, String value, String sub) {
+  Widget box(BuildContext context, String title, String value, String sub) {
     return Container(
       width: 130,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.18),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white30, width: 1.5),
+        color: Theme.of(context).cardColor.withOpacity(0.18),
+        border: Border.all(color: Theme.of(context).dividerColor, width: 1.5),
       ),
       padding: const EdgeInsets.all(12),
       child: Column(
@@ -755,8 +806,8 @@ class ThongTinChiTiet extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onBackground,
               fontSize: 14,
               fontWeight: FontWeight.w600,
             ),
@@ -774,7 +825,12 @@ class ThongTinChiTiet extends StatelessWidget {
           Text(
             sub,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white70, fontSize: 11),
+            style: TextStyle(
+              color: Theme.of(
+                context,
+              ).colorScheme.onBackground.withOpacity(0.9),
+              fontSize: 11,
+            ),
           ),
         ],
       ),
