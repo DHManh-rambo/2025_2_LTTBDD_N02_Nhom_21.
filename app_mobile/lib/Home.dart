@@ -375,7 +375,7 @@ class NhietDoHienTai extends StatelessWidget {
                 colors: [Color(0xFFFFFF00), Color(0xFFFFA500)],
               ).createShader(bounds),
               child: Text(
-                "$temp°""${temp.round()}${UnitSettings.temperatureSymbol()}",
+                "${temp.round()}${UnitSettings.temperatureSymbol()}",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 110,
@@ -466,7 +466,9 @@ class DuBaoTheoGio extends StatelessWidget {
             itemBuilder: (context, index) {
               var item = hourly[index];
               String timeStr = item["dt_txt"].substring(11, 13);
-              double temp = UnitSettings.convertTemperature(item["main"]["temp"]);
+              double temp = UnitSettings.convertTemperature(
+                item["main"]["temp"],
+              );
               var iconCode = item["weather"][0]["icon"];
               IconData iconData = getWeatherIcon(iconCode);
 
@@ -690,11 +692,11 @@ class DuBaoTheoNgay extends StatelessWidget {
 class ThongTinChiTiet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double wind = UnitSettings.convertWindSpeed(12);
     final details = [
       {
         "title": AppLanguage.getText("Gió", "Wind"),
-        double wind = UnitSettings.convertWindSpeed(12);
-        "value": "${wind.round()} ${UnitSettings.windSpeedSymbol()}",,
+        "value": "${wind.round()} ${UnitSettings.windSpeedSymbol()}",
         "sub": AppLanguage.getText("Hướng ĐN", "SE Direction"),
       },
       {

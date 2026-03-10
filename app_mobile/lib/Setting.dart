@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_mobile/Language.dart';
+import 'package:app_mobile/Unit.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -10,8 +11,15 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   String language = AppLanguage.current;
-  String tempUnit = "C"; 
+  String tempUnit = "C";
   String windUnit = "MS";
+  @override
+  void initState() {
+    super.initState();
+    tempUnit = UnitSettings.temperature;
+    windUnit = UnitSettings.windSpeed;
+  }
+
   @override
   Widget build(BuildContext context) {
     String title;
@@ -27,7 +35,7 @@ class _SettingsState extends State<Settings> {
     } else {
       title = "Settings";
       languageText = "Language";
-       tempText = "Temperature Unit";
+      tempText = "Temperature Unit";
       windText = "Wind Speed Unit";
     }
     return Scaffold(
@@ -65,6 +73,7 @@ class _SettingsState extends State<Settings> {
               onChanged: (value) {
                 setState(() {
                   tempUnit = value!;
+                  UnitSettings.temperature = tempUnit;
                 });
               },
             ),
@@ -80,6 +89,7 @@ class _SettingsState extends State<Settings> {
               onChanged: (value) {
                 setState(() {
                   windUnit = value!;
+                  UnitSettings.windSpeed = windUnit;
                 });
               },
             ),
