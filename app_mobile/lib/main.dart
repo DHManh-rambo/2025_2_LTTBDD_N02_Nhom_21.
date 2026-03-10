@@ -1,6 +1,7 @@
 import 'package:app_mobile/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:app_mobile/Language.dart';
+import 'package:app_mobile/AppTheme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +12,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: WeatherStart());
+    ThemeMode mode;
+
+    if (AppTheme.darkMode == true) {
+      mode = ThemeMode.dark;
+    } else {
+      mode = ThemeMode.light;
+    }
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(brightness: Brightness.light),
+
+      darkTheme: ThemeData(brightness: Brightness.dark),
+
+      themeMode: mode,
+      home: WeatherStart(),
+    );
   }
 }
 

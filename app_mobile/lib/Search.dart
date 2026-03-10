@@ -40,9 +40,9 @@ class _SearchState extends State<Search> {
     if (city.isEmpty) {
       setState(() {
         _errorMessage = AppLanguage.getText(
-             "Vui lòng nhập tên thành phố",
-              "Please enter a city name"
-            );
+          "Vui lòng nhập tên thành phố",
+          "Please enter a city name",
+        );
       });
       return;
     }
@@ -72,18 +72,18 @@ class _SearchState extends State<Search> {
       } else {
         setState(() {
           _errorMessage = AppLanguage.getText(
-             "Không tìm thấy thành phố",
-             "City not found",
-            );
+            "Không tìm thấy thành phố",
+            "City not found",
+          );
           _isLoading = false;
         });
       }
     } catch (e) {
       setState(() {
         _errorMessage = AppLanguage.getText(
-           "Lỗi kết nối, vui lòng thử lại",
+          "Lỗi kết nối, vui lòng thử lại",
           "Connection error, please try again",
-          );
+        );
         _isLoading = false;
       });
     }
@@ -102,7 +102,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppLanguage.getText("Tìm kiếm", "Search")), backgroundColor: Colors.orange),
+      appBar: AppBar(title: Text(AppLanguage.getText("Tìm kiếm", "Search"))),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -111,9 +111,9 @@ class _SearchState extends State<Search> {
               controller: _cityController,
               decoration: InputDecoration(
                 hintText: AppLanguage.getText(
-                    "Nhập tên thành phố...",
-                    "Enter city name...",
-                    ),
+                  "Nhập tên thành phố...",
+                  "Enter city name...",
+                ),
                 border: OutlineInputBorder(),
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search),
@@ -129,10 +129,7 @@ class _SearchState extends State<Search> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  AppLanguage.getText(
-              "Lịch sử tìm kiếm:",
-              "Search history:",
-                ),
+                  AppLanguage.getText("Lịch sử tìm kiếm:", "Search history:"),
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),

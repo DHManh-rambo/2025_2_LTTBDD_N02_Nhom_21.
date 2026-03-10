@@ -9,6 +9,7 @@ import 'package:app_mobile/Setting.dart';
 import 'package:app_mobile/Language.dart';
 import 'package:app_mobile/main.dart';
 import 'package:app_mobile/Unit.dart';
+import 'package:app_mobile/AppTheme.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -34,6 +35,14 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
       weatherFuture = fetchCurrentWeather(selectedCity);
       forecastFuture = fetchForecast(selectedCity);
     });
+  }
+
+  String getBackground() {
+    if (AppTheme.darkMode == true) {
+      return "img/home2.jpeg";
+    } else {
+      return "img/home.jpg";
+    }
   }
 
   @override
@@ -62,7 +71,7 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("img/home.jpg"),
+                image: AssetImage(getBackground()),
                 fit: BoxFit.cover,
               ),
             ),

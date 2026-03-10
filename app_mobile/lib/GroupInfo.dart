@@ -40,7 +40,10 @@ class GroupInfo extends StatelessWidget {
           child: Text(
             content,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 20),
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).textTheme.bodyLarge!.color,
+            ),
           ),
         ),
       ),

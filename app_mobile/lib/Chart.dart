@@ -104,7 +104,7 @@ class _ChartState extends State<Chart> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(),
+                border: Border.all(color: Theme.of(context).dividerColor),
               ),
               child: LineChart(
                 LineChartData(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_mobile/Language.dart';
 import 'package:app_mobile/Unit.dart';
 import 'package:app_mobile/GroupInfo.dart';
+import 'package:app_mobile/AppTheme.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -14,6 +15,7 @@ class _SettingsState extends State<Settings> {
   String language = AppLanguage.current;
   String tempUnit = "C";
   String windUnit = "MS";
+  bool darkMode = AppTheme.darkMode;
   @override
   void initState() {
     super.initState();
@@ -28,18 +30,21 @@ class _SettingsState extends State<Settings> {
     String tempText;
     String windText;
     String groupText;
+    String darkModeText;
 
     if (language == "VI") {
       title = "Cài đặt";
       languageText = "Ngôn ngữ";
       tempText = "Đơn vị nhiệt độ";
       windText = "Đơn vị tốc độ gió";
+      darkModeText = "Chế độ tối";
       groupText = "Thông tin nhóm";
     } else {
       title = "Settings";
       languageText = "Language";
       tempText = "Temperature Unit";
       windText = "Wind Speed Unit";
+      darkModeText = "Dark Mode";
       groupText = "Group Information";
     }
     return Scaffold(
@@ -94,6 +99,18 @@ class _SettingsState extends State<Settings> {
                 setState(() {
                   windUnit = value!;
                   UnitSettings.windSpeed = windUnit;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            title: Text(darkModeText),
+            trailing: Switch(
+              value: darkMode,
+              onChanged: (value) {
+                setState(() {
+                  darkMode = value;
+                  AppTheme.darkMode = value;
                 });
               },
             ),

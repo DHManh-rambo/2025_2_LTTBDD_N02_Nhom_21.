@@ -15,6 +15,7 @@ class MAP extends StatefulWidget {
 
 class _MAPState extends State<MAP> {
   LatLng selectedPosition = LatLng(21.0285, 105.8542);
+
   String weatherInfo = AppLanguage.getText(
     "Nhấn vào bản đồ để xem thời tiết",
     "Tap on the map to see weather",
@@ -44,6 +45,14 @@ class _MAPState extends State<MAP> {
 
   @override
   Widget build(BuildContext context) {
+    Color boxColor;
+
+    if (Theme.of(context).brightness == Brightness.dark) {
+      boxColor = Colors.black.withOpacity(0.8);
+    } else {
+      boxColor = Colors.white.withOpacity(0.9);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLanguage.getText("Bản đồ thời tiết", "Weather Map")),
@@ -87,7 +96,7 @@ class _MAPState extends State<MAP> {
             child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.9),
+                color: boxColor,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
