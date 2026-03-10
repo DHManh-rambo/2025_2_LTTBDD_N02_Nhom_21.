@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_mobile/Language.dart';
 import 'package:app_mobile/Unit.dart';
+import 'package:app_mobile/GroupInfo.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -33,7 +34,7 @@ class _SettingsState extends State<Settings> {
       languageText = "Ngôn ngữ";
       tempText = "Đơn vị nhiệt độ";
       windText = "Đơn vị tốc độ gió";
-       groupText = "Thông tin nhóm";
+      groupText = "Thông tin nhóm";
     } else {
       title = "Settings";
       languageText = "Language";

@@ -14,9 +14,9 @@ class GroupInfo extends StatelessWidget {
       content =
           "Nhóm 21\n\n"
           "Dương Hùng Mạnh\n"
-          "Mã Sinh Viên:23010597"
+          "Mã Sinh Viên:23010597\n"
           "Nguyễn Đức Trọng\n"
-          "Mã Sinh Viên:23010594";
+          "Mã Sinh Viên:23010594\n";
     } else {
       title = "Group Information";
       content =
@@ -28,9 +28,7 @@ class GroupInfo extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      appBar: AppBar(title: Text(title)),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(20),
@@ -42,9 +40,7 @@ class GroupInfo extends StatelessWidget {
           child: Text(
             content,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 20,
-            ),
+            style: const TextStyle(fontSize: 20),
           ),
         ),
       ),
