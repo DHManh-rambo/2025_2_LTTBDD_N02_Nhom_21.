@@ -26,17 +26,20 @@ class _SettingsState extends State<Settings> {
     String languageText;
     String tempText;
     String windText;
+    String groupText;
 
     if (language == "VI") {
       title = "Cài đặt";
       languageText = "Ngôn ngữ";
       tempText = "Đơn vị nhiệt độ";
       windText = "Đơn vị tốc độ gió";
+       groupText = "Thông tin nhóm";
     } else {
       title = "Settings";
       languageText = "Language";
       tempText = "Temperature Unit";
       windText = "Wind Speed Unit";
+      groupText = "Group Information";
     }
     return Scaffold(
       appBar: AppBar(title: Text(title)),
@@ -93,6 +96,16 @@ class _SettingsState extends State<Settings> {
                 });
               },
             ),
+          ),
+          ListTile(
+            title: Text(groupText),
+            trailing: Icon(Icons.arrow_forward),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const GroupInfo()),
+              );
+            },
           ),
         ],
       ),
