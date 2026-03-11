@@ -97,24 +97,21 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
                         const SizedBox(height: 30),
 
                         ShaderMask(
-                            shaderCallback: (bounds) => const LinearGradient(
-                                colors: [
-                                  Color.fromARGB(255, 94, 173, 238),
-                                  Color.fromARGB(255, 246, 234, 130),
-                                ],
-                              ).createShader(bounds),
-                            child: Text(
-                                  AppLanguage.getText(
+                          shaderCallback: (bounds) => const LinearGradient(
+                            colors: [Color(0xFFFF8A00), Color(0xFFFF3D00)],
+                          ).createShader(bounds),
+                          child: Text(
+                            AppLanguage.getText(
                               "DỰ BÁO THEO GIỜ",
                               "HOURLY FORECAST",
                             ),
-                          style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                                ),
-                              ),
-                                ),
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
 
                         DuBaoTheoGio(city: selectedCity),
 
