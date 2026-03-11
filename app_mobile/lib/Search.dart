@@ -21,6 +21,7 @@ class _SearchState extends State<Search> {
   String? _errorMessage;
 
   List<String> searchHistory = [];
+
   @override
   void initState() {
     super.initState();
@@ -92,6 +93,7 @@ class _SearchState extends State<Search> {
   Future<void> _saveToHistory(String city) async {
     final prefs = await SharedPreferences.getInstance();
     List<String> history = prefs.getStringList('search_history') ?? [];
+
     if (!history.contains(city)) {
       history.insert(0, city);
       if (history.length > 10) history.removeLast();
@@ -102,9 +104,12 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppLanguage.getText("Tìm kiếm", "Search"))),
+      appBar: AppBar(
+        title: Text(AppLanguage.getText("Tìm kiếm", "Search")),
+        centerTitle: true,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             TextField(
@@ -114,89 +119,124 @@ class _SearchState extends State<Search> {
                   "Nhập tên thành phố...",
                   "Enter city name...",
                 ),
-                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.location_city),
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search),
                   onPressed: _searchWeather,
+                ),
+                filled: true,
+                fillColor: Colors.grey.shade100,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
               ),
               onSubmitted: (_) => _searchWeather(),
             ),
 
-            SizedBox(height: 15),
+            const SizedBox(height: 20),
 
             if (searchHistory.isNotEmpty) ...[
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  AppLanguage.getText("Lịch sử tìm kiếm:", "Search history:"),
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  AppLanguage.getText("Lịch sử tìm kiếm", "Search history"),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(height: 8),
-              SizedBox(
-                height: 100,
+
+              const SizedBox(height: 10),
+
+              Expanded(
                 child: ListView.builder(
                   itemCount: searchHistory.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(searchHistory[index]),
-                      leading: Icon(Icons.history),
-                      onTap: () {
-                        _cityController.text = searchHistory[index];
-                        _searchWeather();
-                      },
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: ListTile(
+                        leading: Icon(Icons.history),
+                        title: Text(searchHistory[index]),
+                        onTap: () {
+                          _cityController.text = searchHistory[index];
+                          _searchWeather();
+                        },
+                      ),
                     );
                   },
                 ),
               ),
-              SizedBox(height: 10),
             ],
 
-            if (_isLoading) CircularProgressIndicator(),
+            if (_isLoading) const CircularProgressIndicator(),
 
             if (_errorMessage != null)
               Text(
                 _errorMessage!,
-                style: TextStyle(color: Colors.red, fontSize: 16),
+                style: const TextStyle(color: Colors.red, fontSize: 16),
               ),
 
             if (_weatherData != null) ...[
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-              Text(
-                _weatherData!["name"],
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-              ),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Text(
+                        _weatherData!["name"],
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
 
-              Text(
-                "${UnitSettings.convertTemperature(_weatherData!["main"]["temp"]).round()}${UnitSettings.temperatureSymbol()}",
-                style: TextStyle(fontSize: 64, fontWeight: FontWeight.w200),
-              ),
+                      const SizedBox(height: 10),
 
-              Text(
-                _weatherData!["weather"][0]["description"],
-                style: TextStyle(fontSize: 20),
-              ),
+                      Icon(Icons.wb_sunny, size: 70, color: Colors.orange),
 
-              SizedBox(height: 20),
+                      const SizedBox(height: 10),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildInfoColumn(
-                    AppLanguage.getText("Độ ẩm", "Humidity"),
-                    "${_weatherData!["main"]["humidity"]}%",
+                      Text(
+                        "${UnitSettings.convertTemperature(_weatherData!["main"]["temp"]).round()}${UnitSettings.temperatureSymbol()}",
+                        style: const TextStyle(
+                          fontSize: 60,
+                          fontWeight: FontWeight.w200,
+                        ),
+                      ),
+
+                      Text(
+                        _weatherData!["weather"][0]["description"],
+                        style: const TextStyle(fontSize: 18),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildInfoColumn(
+                            AppLanguage.getText("Độ ẩm", "Humidity"),
+                            "${_weatherData!["main"]["humidity"]}%",
+                          ),
+                          _buildInfoColumn(
+                            AppLanguage.getText("Gió", "Wind"),
+                            "${UnitSettings.convertWindSpeed(_weatherData!["wind"]["speed"]).round()} ${UnitSettings.windSpeedSymbol()}",
+                          ),
+                          _buildInfoColumn(
+                            AppLanguage.getText("Áp suất", "Pressure"),
+                            "${_weatherData!["main"]["pressure"]} hPa",
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  _buildInfoColumn(
-                    AppLanguage.getText("Gió", "Wind"),
-                    "${UnitSettings.convertWindSpeed(_weatherData!["wind"]["speed"]).round()} ${UnitSettings.windSpeedSymbol()}",
-                  ),
-                  _buildInfoColumn(
-                    AppLanguage.getText("Áp suất", "Pressure"),
-                    "${_weatherData!["main"]["pressure"]} hPa",
-                  ),
-                ],
+                ),
               ),
             ],
           ],
@@ -208,11 +248,11 @@ class _SearchState extends State<Search> {
   Widget _buildInfoColumn(String label, String value) {
     return Column(
       children: [
-        Text(label, style: TextStyle(fontSize: 16, color: Colors.grey)),
-        SizedBox(height: 4),
+        Text(label, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+        const SizedBox(height: 5),
         Text(
           value,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ],
     );
