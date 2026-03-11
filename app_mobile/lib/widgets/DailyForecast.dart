@@ -68,13 +68,26 @@ class DuBaoTheoNgay extends StatelessWidget {
         return Container(
           margin: EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.25),
+              color: Colors.black.withOpacity(0.45),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: Colors.white.withOpacity(0.25),
               ),
                 ),
-          child: Column(children: dayWidgets),
+          child: Column(
+                children: List.generate(dayWidgets.length, (index) {
+                  return Column(
+                    children: [
+                      dayWidgets[index],
+                      if (index != dayWidgets.length - 1)
+                        Divider(
+                          color: Colors.white.withOpacity(0.1),
+                          height: 1,
+                        ),
+                    ],
+                  );
+                }),
+              ),
         );
       },
     );
@@ -177,6 +190,8 @@ class DuBaoTheoNgay extends StatelessWidget {
                           Color(0xFFFF8C00),
                         ],
                       ),
+                      borderRadius: BorderRadius.circular(10),
+
               ),
               ),
               SizedBox(width: 20),
