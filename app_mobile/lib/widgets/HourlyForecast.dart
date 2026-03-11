@@ -82,44 +82,40 @@ class DuBaoTheoGio extends StatelessWidget {
               IconData iconData = getWeatherIcon(iconCode);
 
               return Container(
-                width: 70,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "${timeStr}h",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onBackground,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Icon(
-                      iconData,
-                      color: AppTheme.darkMode
-                          ? Colors.white70
-                          : Colors.black87,
-                    ),
-                    Text(
-                      "${temp.round()}${UnitSettings.temperatureSymbol()}",
-                      style: TextStyle(
-                        color: AppTheme.darkMode
-                            ? Colors.yellow
-                            : Colors.orange.shade800,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
-}
+  width: 70,
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        "${timeStr}h",
+        style: TextStyle(
+          color: AppTheme.darkMode
+              ? Theme.of(context).colorScheme.onBackground
+              : Colors.blue.shade700,
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      Icon(
+        iconData,
+        size: 26,
+        color: AppTheme.darkMode
+            ? Colors.white70
+            : Colors.blue.shade500,
+      ),
+      Text(
+        "${temp.round()}${UnitSettings.temperatureSymbol()}",
+        style: TextStyle(
+          color: AppTheme.darkMode
+              ? Colors.yellow
+              : Colors.deepOrange,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      ),
+    ],
+  ),
+);
 
 IconData getWeatherIcon(String iconCode) {
   if (iconCode.contains('d')) {
