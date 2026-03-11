@@ -16,7 +16,9 @@ class DuBaoTheoGio extends StatelessWidget {
             height: 130,
             margin: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: AppTheme.darkMode
+              ? Colors.white.withOpacity(0.15)
+              : Colors.black.withOpacity(0.05),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
@@ -31,8 +33,10 @@ class DuBaoTheoGio extends StatelessWidget {
             height: 130,
             margin: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(20),
+              color: AppTheme.darkMode
+                  ? Colors.white.withOpacity(0.15)
+                  : Colors.black.withOpacity(0.05),
+              border: Border.all(color: Theme.of(context).dividerColor, width: 1),
             ),
             child: Center(
               child: Text(
