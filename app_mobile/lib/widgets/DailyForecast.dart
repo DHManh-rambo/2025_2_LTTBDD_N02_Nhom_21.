@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/WeatherApi.dart';
 import 'package:app_mobile/Unit.dart';
 import 'package:app_mobile/Language.dart';
+import 'package:app_mobile/AppTheme.dart';
 
 class DuBaoTheoNgay extends StatelessWidget {
   final String city;
@@ -68,8 +69,8 @@ class DuBaoTheoNgay extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             color: AppTheme.darkMode
-              ? Colors.white.withOpacity(0.15)
-              : Colors.black.withOpacity(0.08),
+                ? Colors.white.withOpacity(0.15)
+                : Colors.black.withOpacity(0.08),
             border: Border.all(color: Theme.of(context).dividerColor),
           ),
           child: Column(children: dayWidgets),
@@ -153,7 +154,12 @@ class DuBaoTheoNgay extends StatelessWidget {
                 ).createShader(bounds),
                 child: Text(
                   item["min"]!,
-                  style: TextStyle(color: AppTheme.darkMode ? Colors.lightBlue : Colors.blue.shade800, fontSize: 16),
+                  style: TextStyle(
+                    color: AppTheme.darkMode
+                        ? Colors.lightBlue
+                        : Colors.blue.shade800,
+                    fontSize: 16,
+                  ),
                 ),
               ),
               SizedBox(width: 20),
@@ -175,7 +181,9 @@ class DuBaoTheoNgay extends StatelessWidget {
                 child: Text(
                   item["max"]!,
                   style: TextStyle(
-                    color: AppTheme.darkMode ? Colors.orange : Colors.orange.shade800,
+                    color: AppTheme.darkMode
+                        ? Colors.orange
+                        : Colors.orange.shade800,
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),

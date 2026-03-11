@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/WeatherApi.dart';
 import 'package:app_mobile/Unit.dart';
 import 'package:app_mobile/Language.dart';
+import 'package:app_mobile/AppTheme.dart';
 
 class DuBaoTheoGio extends StatelessWidget {
   final String city;
@@ -10,15 +11,19 @@ class DuBaoTheoGio extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<List<dynamic>>(
       future: fetchForecast(city),
+
       builder: (context, snapshot) {
+        Color containerBgColor = AppTheme.darkMode
+            ? Colors.white.withOpacity(0.15)
+            : Colors.white.withOpacity(0.4);
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
             height: 130,
-            margin: EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               color: AppTheme.darkMode
-              ? Colors.white.withOpacity(0.15)
-              : Colors.black.withOpacity(0.05),
+                  ? Colors.white.withOpacity(0.15)
+                  : Colors.black.withOpacity(0.05),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
@@ -36,7 +41,10 @@ class DuBaoTheoGio extends StatelessWidget {
               color: AppTheme.darkMode
                   ? Colors.white.withOpacity(0.15)
                   : Colors.black.withOpacity(0.05),
-              border: Border.all(color: Theme.of(context).dividerColor, width: 1),
+              border: Border.all(
+                color: Theme.of(context).dividerColor,
+                width: 1,
+              ),
             ),
             child: Center(
               child: Text(
@@ -53,9 +61,11 @@ class DuBaoTheoGio extends StatelessWidget {
 
         return Container(
           height: 130,
-          margin: EdgeInsets.symmetric(horizontal: 16),
+          margin: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
+            color: AppTheme.darkMode
+                ? Colors.white.withOpacity(0.15)
+                : Colors.black.withOpacity(0.05),
             border: Border.all(color: Theme.of(context).dividerColor, width: 1),
           ),
           child: ListView.builder(
@@ -79,25 +89,25 @@ class DuBaoTheoGio extends StatelessWidget {
                     Text(
                       "${timeStr}h",
                       style: TextStyle(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onBackground.withOpacity(0.9),
+                        color: Theme.of(context).colorScheme.onBackground,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Icon(iconData, color: Theme.of(context).iconTheme.color),
-                    ShaderMask(
-                      shaderCallback: (bounds) => LinearGradient(
-                        colors: [Color(0xFFFFFF00), Color(0xFFFFA500)],
-                      ).createShader(bounds),
-                      child: Text(
-                        "${temp.round()}${UnitSettings.temperatureSymbol()}",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+                    Icon(
+                      iconData,
+                      color: AppTheme.darkMode
+                          ? Colors.white70
+                          : Colors.black87,
+                    ),
+                    Text(
+                      "${temp.round()}${UnitSettings.temperatureSymbol()}",
+                      style: TextStyle(
+                        color: AppTheme.darkMode
+                            ? Colors.yellow
+                            : Colors.orange.shade800,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
                     ),
                   ],
@@ -109,14 +119,14 @@ class DuBaoTheoGio extends StatelessWidget {
       },
     );
   }
+}
 
-  IconData getWeatherIcon(String iconCode) {
-    if (iconCode.contains('d')) {
-      return Icons.wb_sunny;
-    } else if (iconCode.contains('n')) {
-      return Icons.nights_stay;
-    } else {
-      return Icons.cloud;
-    }
+IconData getWeatherIcon(String iconCode) {
+  if (iconCode.contains('d')) {
+    return Icons.wb_sunny;
+  } else if (iconCode.contains('n')) {
+    return Icons.nights_stay;
+  } else {
+    return Icons.cloud;
   }
 }
