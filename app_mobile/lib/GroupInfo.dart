@@ -16,7 +16,8 @@ class GroupInfo extends StatelessWidget {
           "Dương Hùng Mạnh\n"
           "Mã Sinh Viên:23010597\n"
           "Nguyễn Đức Trọng\n"
-          "Mã Sinh Viên:23010594\n";
+          "Mã Sinh Viên:23010594\n"
+          "Giáo viên hướng dẫn : ThS. Nguyễn Xuân Quế";
     } else {
       title = "Group Information";
       content =
@@ -24,7 +25,8 @@ class GroupInfo extends StatelessWidget {
           "Duong Hung Manh\n"
           "Student Id:23010597\n"
           "Nguyen Duc Trong\n"
-          "Student Id:2310594\n";
+          "Student Id:2310594\n"
+          "Instructor: Ths. Nguyen Xuan Que";
     }
 
     return Scaffold(

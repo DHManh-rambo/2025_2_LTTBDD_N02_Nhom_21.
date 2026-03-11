@@ -117,10 +117,20 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
 
                         const SizedBox(height: 20),
 
-                        buildSectionTitle(
-                          AppLanguage.getText(
-                            "DỰ BÁO 7 NGÀY",
-                            "7 DAY FORECAST",
+                        ShaderMask(
+                          shaderCallback: (bounds) => const LinearGradient(
+                            colors: [Color(0xFFFF8A00), Color(0xFFFF3D00)],
+                          ).createShader(bounds),
+                          child: Text(
+                            AppLanguage.getText(
+                              "DỰ BÁO 7 NGÀY",
+                              "7 DAY FORECAST",
+                            ),
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
 
