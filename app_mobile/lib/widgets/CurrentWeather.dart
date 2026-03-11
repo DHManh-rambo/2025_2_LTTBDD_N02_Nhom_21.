@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_mobile/Language.dart';
 import 'package:app_mobile/Unit.dart';
+import 'package:app_mobile/AppTheme.dart';
 
 class NhietDoHienTai extends StatelessWidget {
   final Future<Map<String, dynamic>> weatherFuture;
@@ -37,13 +38,15 @@ class NhietDoHienTai extends StatelessWidget {
               child: Text(
                 "${temp.round()}${UnitSettings.temperatureSymbol()}",
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Colors.white,
                   fontSize: 110,
                   fontWeight: FontWeight.w200,
                   shadows: [
                     Shadow(
                       blurRadius: 10,
-                      color: Theme.of(context).shadowColor,
+                      color: AppTheme.darkMode
+                          ? Colors.black54
+                          : Colors.white70,
                     ),
                   ],
                 ),
@@ -56,7 +59,10 @@ class NhietDoHienTai extends StatelessWidget {
                 fontSize: 24,
                 fontWeight: FontWeight.w500,
                 shadows: [
-                  Shadow(blurRadius: 6, color: Theme.of(context).shadowColor),
+                  Shadow(
+                    blurRadius: 6,
+                    color: AppTheme.darkMode ? Colors.black54 : Colors.white70,
+                  ),
                 ],
               ),
             ),
@@ -67,7 +73,10 @@ class NhietDoHienTai extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onBackground,
                 fontSize: 18,
                 shadows: [
-                  Shadow(blurRadius: 4, color: Theme.of(context).shadowColor),
+                  Shadow(
+                    blurRadius: 8,
+                    color: AppTheme.darkMode ? Colors.black54 : Colors.white70,
+                  ),
                 ],
               ),
             ),

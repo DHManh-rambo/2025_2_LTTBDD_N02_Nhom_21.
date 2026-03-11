@@ -177,7 +177,7 @@ class _ChartState extends State<Chart> {
           Text(
             AppLanguage.getText(
               "Trục Y: thể hiện nhiệt độ (${UnitSettings.temperatureSymbol()}).",
-              "Y axis: shows temperature (°C).",
+              "Y axis: shows temperature (${UnitSettings.temperatureSymbol()}).",
             ),
             style: TextStyle(color: Colors.grey),
           ),
@@ -208,7 +208,7 @@ class _ChartState extends State<Chart> {
           Text(
             AppLanguage.getText(
               "Trục Y: thể hiện nhiệt độ (${UnitSettings.temperatureSymbol()}).",
-              "Y axis: shows temperature (°C).",
+              "Y axis: shows temperature (${UnitSettings.temperatureSymbol()}).",
             ),
             style: TextStyle(color: Colors.grey),
           ),

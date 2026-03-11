@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:app_mobile/Search.dart';
-import 'package:app_mobile/Chart.dart';
-import 'package:app_mobile/SearchHistory.dart';
-import 'package:app_mobile/Map.dart';
-import 'package:app_mobile/Setting.dart';
 import 'package:app_mobile/Language.dart';
-import 'package:app_mobile/main.dart';
 import 'package:app_mobile/Unit.dart';
-import 'package:app_mobile/AppTheme.dart';
 
 class ThongTinChiTiet extends StatelessWidget {
   @override
