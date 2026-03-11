@@ -68,11 +68,12 @@ class DuBaoTheoNgay extends StatelessWidget {
         return Container(
           margin: EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: AppTheme.darkMode
-                ? Colors.white.withOpacity(0.15)
-                : Colors.black.withOpacity(0.08),
-            border: Border.all(color: Theme.of(context).dividerColor),
-          ),
+              color: Colors.black.withOpacity(0.25),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.25),
+              ),
+                ),
           child: Column(children: dayWidgets),
         );
       },
@@ -150,8 +151,11 @@ class DuBaoTheoNgay extends StatelessWidget {
             children: [
               ShaderMask(
                 shaderCallback: (bounds) => LinearGradient(
-                  colors: [Color(0xFFA0A0A0), Color(0xFFFFFFFF)],
-                ).createShader(bounds),
+                      colors: [
+                        Color(0xFF2DA4FF),
+                        Color(0xFF00C6FF),
+                      ],
+                    ).createShader(bounds),
                 child: Text(
                   item["min"]!,
                   style: TextStyle(
@@ -164,19 +168,21 @@ class DuBaoTheoNgay extends StatelessWidget {
               ),
               SizedBox(width: 20),
               Container(
-                width: 80,
-                height: 6,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF4FACFE), Color(0xFFFFA500)],
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                    width: 90,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF2DA4FF),
+                          Color(0xFFFF8C00),
+                        ],
+                      ),
+              ),
               ),
               SizedBox(width: 20),
               ShaderMask(
                 shaderCallback: (bounds) => LinearGradient(
-                  colors: [Color(0xFFFFA500), Color(0xFFFF4500)],
+                  colors: [Color(0xFFFFB300), Color(0xFFFF3D00)],
                 ).createShader(bounds),
                 child: Text(
                   item["max"]!,
