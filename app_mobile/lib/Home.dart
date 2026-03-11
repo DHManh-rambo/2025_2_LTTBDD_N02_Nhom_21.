@@ -138,8 +138,18 @@ class _ManHinhGPSState extends State<ManHinhGPS> {
 
                         const SizedBox(height: 20),
 
-                        buildSectionTitle(
-                          AppLanguage.getText("CHI TIẾT", "DETAILS"),
+                        ShaderMask(
+                          shaderCallback: (bounds) => const LinearGradient(
+                            colors: [Color(0xFFFF8A00), Color(0xFFFF3D00)],
+                          ).createShader(bounds),
+                          child: Text(
+                            AppLanguage.getText("CHI TIẾT", "DETAILS"),
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
 
                         ThongTinChiTiet(),
